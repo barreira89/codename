@@ -1,0 +1,43 @@
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-2">
+			<div ng-repeat="league in leagueList">
+				<div>
+					<button class="btn btn-default user-btn" ng-click="selectCurrentLeague(league._id)"> {{league.name}} </button>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-5 form-group" ng-show="currentLeague">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h2> {{currentLeague.name}} </h2> </div>
+				<div class="panel-body">
+					<h4> League Name: </h4>
+					<input class="text" type="text" ng-model="currentLeague.name"></input>
+					<div class="row">
+						<div class="col-md-6">
+							<h4> Users: </h4>
+							<div ng-repeat="user in currentLeague.users">
+								{{user}} | <a href="" ng-click="removeUserFromLeague(user)"> Remove </a>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<h4> Add Users: </h4>
+							<div>
+								<div ng-repeat="user in userList">
+									<a href="" ng-click="addUserToLeague(user.username)"> {{user.username}} </a>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div>
+						<button class="btn btn-default user-btn" ng-click="submitLeague()"> Update League {{currentLeague.name}} </button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-5">
+			<league-summary league="leagueSummary"></league-summary>
+		</div>
+	</div>
+</div>

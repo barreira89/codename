@@ -1,0 +1,12 @@
+<div class="container-fluid">
+<div class="col-md-1">
+  <button class="btn btn-default user-btn" ng-click="refresh(currentUser)" > Profile </button>
+  <button class="btn btn-default user-btn" ng-click="refresh('test456')" > update </button>
+</div>
+<div class="col-md-8">
+  <user-profile profile="userData"></user-profile>
+  <user-leagues username="currentUser" leagues="leagueSummary"></user-leagues>
+  <user-stats userModel="userModel"> </user-stats>
+  <my-picks userpicks="userPicksByWeek"></my-picks>
+</div>
+</div>

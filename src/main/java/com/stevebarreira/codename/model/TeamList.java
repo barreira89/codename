@@ -1,0 +1,57 @@
+package com.stevebarreira.codename.model;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+
+public class TeamList{
+	
+	private static int defaultSize = 25;
+	private Random random = new Random();
+	private List<Team> teamList;
+	private String leadTeam;
+
+	public List<Team> getTeamList() {
+		return teamList;
+	}
+
+	public String getLeadTeam() {
+		return leadTeam;
+	}
+
+	public TeamList(){
+		this.teamList = createTeamList();
+	}
+	
+	public Team getRandomTeam(){
+		int wordListSize = teamList.size();
+		int randomValue = random.nextInt(wordListSize);
+		Team output = teamList.get(randomValue);
+		teamList.remove(randomValue);
+		return output;
+	}
+	
+	private List<Team> createTeamList() {
+		List<Team> teamList = new ArrayList<Team>();
+		if(Math.random() > 0.5){
+			teamList.add(Team.RED);
+			this.leadTeam = "Red";
+		} else {
+			teamList.add(Team.BLUE);
+			this.leadTeam = "Blue";
+		}
+		for (int i =0; i < 8; i ++){
+			teamList.add(Team.RED);
+		}
+		for (int i =0; i < 8; i++) {
+			teamList.add(Team.BLUE);
+		}
+		for (int i = 0; i < 7; i++ ){
+			teamList.add(Team.NEUTRAL);
+		} 
+		teamList.add(Team.ASSASSIN);
+		return teamList;
+	}
+}

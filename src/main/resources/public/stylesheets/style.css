@@ -1,0 +1,99 @@
+body {
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font-family: 'Montserrat', sans-serif;
+  padding-top: 50px;
+  background-color: white;
+}
+.gametile {
+  text-align: center;
+  border-width: 1px;
+  border-radius: 2px;
+  border-color: black;
+}
+.navbar{
+	background-color: #546B01;
+	opacity:0.9;
+	margin-bottom: 0;
+}
+.navbar li a, .navbar .navbar-brand {
+    color: #d5d5d5 !important;
+}
+.navbar-default .navbar-toggle {
+	border-color: transparent;
+	color: black;
+}
+.open .dropdown-toggle {
+	color: black;
+	background-color: #555 !important;
+}
+.dropdown-menu li a {
+	color: #000 !important;
+	text-align: right;
+	background-color: black;
+}
+.login{
+	margin-top: 15px;
+}
+.panel-heading{
+	color: #036564;
+}
+.jumbotron{
+	height: 280px;
+	margin-bottom: 0px;
+	background: #FFFFFF;
+}
+.my-container{
+	padding-top: 15px;
+	padding-bottom: 25px;
+}
+.tile{
+	width:100%;
+	border-style: solid;
+	border-width: thin;
+	margin: 5px;
+	border-color: gray;
+}
+a {
+  color: #00B7FF;
+}
+.main-panel{
+	display: inline-block;
+	color: #FFFFFF;
+	background-color: #A45E19;
+	border-radius: 15px;
+}
+.lose{
+	opacity: 0.30;
+}
+.pickimg{
+	margin-bottom: 2px;
+	padding-right: 5px;
+}
+.pickbtn{
+	margin-top: 4px;
+}
+.panel-body{
+	margin: 1px;
+}
+.score{
+	margin-top: 12px;
+	vertical-align: middle;
+}
+.content-right{
+	border-left: 1px solid gray;
+}
+.user-btn{
+	margin: 3px;
+}
+.score-txt{
+	margin:1px;
+	text-align: right;
+}
+.container-main{
+	padding-bottom: 25px;
+}
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}

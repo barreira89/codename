@@ -1,0 +1,45 @@
+<div class="container-fluid">
+	<h3> Current Season </h3>
+		<div class="row">
+		<div class="col-md-3">
+		<input type="text" class="form-control" ng-model="currentConfig.currentSeason"></input>
+		</div>
+		<button class="btn btn-default" ng-click="updateConfig(currentConfig, currentConfig._id)"> Update Season </button>
+	</div>
+	<h3> Set Winners by Week </h3>
+	<div class="row">
+		<div class="col-md-2">
+			<label> Week: </label>
+			<select class="form-control" ng-model="wk.selected" ng-options="week for week in weekList | orderBy: week" ng-change="getScheduleByWeek(wk.selected)" />
+		</div>
+	</div>
+</div>
+<div class="container-fluid">
+	<table class="table table-condensed">
+		<tr>
+		<th class="col-md-2"> visitor </th>
+		<th class="col-md-2"> home </th>
+		<th class="col-md-2"> visitor score </th>
+		<th class="col-md-2"> home score </th>
+		<th class="col-md-2"> winner </th>
+	</tr>
+	<tr ng-repeat="game in currentGames">
+		<td> {{game.visitor}} </td>
+		<td> {{game.home}} </td>
+		<td> {{game.calculatedWinner()}} <input type="number" class="form-control input-sm score-txt" ng-model="game.visitscore"></input></td>
+		<td> <input type="number" class="form-control input-sm score-txt" ng-model="game.homescore"></input></td>
+		<td ng-model="game.winner"> {{game.winner}}  </td>
+	</tr>
+	</table>
+	</div>
+	<div class= "row">
+		<div class="col-md-8 col-md-offset-2" ng-show="currentGames">
+			<div class="col-md-6">
+				<label class="btn btn-primary btn-block" ng-click="reset()"> Reset </label>
+			</div>
+			<div class="col-md-6">
+				<label class="btn btn-primary btn-block" ng-click="updateGames(wk.selected, currentGames)" data-toggle="modal" data-target="#myModal"> Submit </label>
+			</div>
+		</div>
+	</div>
+</div>

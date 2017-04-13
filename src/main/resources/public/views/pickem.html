@@ -1,0 +1,26 @@
+<div class="container-fluid">
+	<div class="jumbotron text-center">
+		<div class="panel panel-default main-panel">
+			<h1> Football Pick'em </h1>
+			<p> Select a week and pick the winners </p>
+
+			<div class="container row form-group">
+				<div class="text-center">
+					<label for="sel1">
+						<select class="form-control" ng-model="weekSchedule.selected" ng-options="option for option in weekList | orderBy: option" ng-change="mctrl.getCurrentWeekGames(weekSchedule.selected)" />
+					</label>
+				</div>
+			</div>
+			<small> Current Season: {{currentSeason}} </small>
+		</div>
+	</div>
+</div>
+{{testConstants}}
+<div ng-repeat="game in currentGames">
+	<game-panel game="game" user="userModel"></game-panel>
+</div>
+<div class="row">
+	<div class="col-md-offset-4 col-md-4">
+		<button class="btn btn-default form-control" ng-show="currentGames && userName" ng-disabled="!userName" ng-click="updatePicks(weekSchedule.selected, userModel.pickModel)"> Update Picks </button>
+	</div>
+</div>

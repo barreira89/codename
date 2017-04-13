@@ -1,0 +1,47 @@
+<div class="container-fluid">
+<div class="row">
+	<div class="col-md-2">
+		<div ng-repeat="names in userlist">
+		<div>
+			<button class="btn btn-default user-btn" ng-click="getUserDetail(names._id)"> {{names.username}}</button>
+		</div>
+		</div>
+	</div>
+	<div class="col-md-8">
+		<div class="row"> <h2> {{userModel.username | uppercase}} </h2>
+			<user-stats userModel="userModel"></user-stats>
+		</div>
+		<div class="row">
+			<my-picks userpicks="userPicksByWeek"></my-picks>
+		</div>
+		<!--<div ng-repeat="weekPick in userPicksByWeek">
+			<h1> Week: {{weekPick.week}} </h1>
+			<div ng-repeat="pick in weekPick.picks">
+				<div class="row">
+					<div class="col-md-3">
+					<select name="winnerSelect" ng-model="pick.winner">
+							<option value="home"> {{pick.game.home}} </option>
+							<option value="visitor"> {{pick.game.visitor}} </option>
+					</select>
+					</div>
+					<div class="col-md-3">
+						{{pick.game.visitor}} @ {{pick.game.home}}
+					</div>
+					<div class="col-md-3">
+						 {{pick.userResult().gameResult}}
+					</div>
+					<div class="col-md-3">
+						<button ng-click="updatePick(pick._id, pick)" class="btn btn-default"> Update </button>
+					</div>
+				</div>
+			</div>
+		</div> -->
+	</div>
+	<div class="col-md-2">
+		<h2 ng-show="userModel.leagues"> Leagues </h2>
+		<div ng-repeat="league in userModel.leagues">
+			{{league.name}} | <a href="" ng-click="removeUserFromLeague(userModel.username, league)"> Remove </a>
+		</div>
+	</div>
+</div>
+</div>

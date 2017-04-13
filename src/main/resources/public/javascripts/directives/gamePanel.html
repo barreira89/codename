@@ -1,0 +1,45 @@
+<div class="col-md-3 centered">
+	<uib-accordion>
+				<uib-accordion-group is-open=true heading="{{game.visitor}} vs. {{game.home}}">
+				<div class="row">
+					<div class="col-md-3 hidden-xs">
+						<img class="img-circle pickimg" ng-class="{'lose': game.winner == 'home'}" height="36" ng-src="{{getTeamLogo(game.visitor)}}" >
+					</div>
+					<div class="col-md-6 col-xs-8">
+						<div class="pox">
+							<label
+							class="btn btn-default btn-sm btn-block pickbtn"
+							ng-class="{'btn-success': winner == 'visitor'}"
+							ng-model ="game.userPicks.winner"
+							uib-btn-radio="'visitor'"
+							uncheckable>
+								<b> {{game.visitor}} </b>
+							</label>
+						</div>
+					</div>
+					<div class="col-md-2 col-xs-4">
+						<label class="score"> {{game.visitscore}} </label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-3 hidden-xs">
+						<img class="img-circle pickimg" ng-class="{'lose': game.winner == 'visitor'}" height="36" ng-src="{{getTeamLogo(game.home)}}">
+					</div>
+					<div class="col-md-6 col-xs-8">
+						<div class="pox">
+							<label class="btn btn-default btn-sm btn-block pickbtn"
+							ng-class="{'btn-success': team.winner == 'home'}"
+							ng-model ="game.userPicks.winner"
+							uib-btn-radio="'home'"
+							uncheckable> <b> {{game.home}} </b> </label>
+						</div>
+					</div>
+					<div class="col-md-2 col-xs-4">
+						<label class="score">
+						{{game.homescore}}
+						</label>
+					</div>
+				</div>
+			</uib-accordion-group>
+		</uib-accordion>
+</div>

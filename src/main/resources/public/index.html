@@ -1,0 +1,53 @@
+
+<!DOCTYPE html>
+<html ng-app="Football">
+<head><title>Football Pickem</title>
+  <script src="/javascripts/jquery-1.11.3.js"></script>
+  <script src="/javascripts/angular.js">
+  </script>
+  <script src="/javascripts/ui-bootstrap-tpls-0.14.3.js">
+  </script>
+  <script src="/javascripts/angular-route.js">
+  </script>
+  <script src="/javascripts/angular-ui-router.js">
+  </script>
+  <script src="/javascripts/bootstrap.js">
+  </script><link rel="stylesheet" href="stylesheets/bootstrap.css">
+  <link rel="stylesheet" href="stylesheets/style.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+  <script src="/javascripts/app.js"></script>
+  <script src="/javascripts/controllers/MainController.js"></script>
+  <script src="javascripts/services/gameboard.js"></script>
+  <script src="javascripts/services/scoreboard.js"></script>
+  <script src="javascripts/directives/gameTile.js"></script>
+  <script src="javascripts/services/picks.js"></script>
+  <script src="javascripts/filters/percentage.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+</head>
+<body>
+  <nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+    <div class="navbar-header">
+      <button class="navbar-toggle" type="button" ng-click="toggleCollapse()">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <div class="collapse navbar-collapse" uib-collapse="isCollapsed">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#/" ng-click="menuCollapse()">Pick'em</a></li>
+        <li><a href="#/login" ng-click="menuCollapse()">Sign In</a></li>
+        <li><a href="#/users" ng-click="menuCollapse()">Users</a></li>
+        <li><a href="#/admin" ng-click="menuCollapse()">Admin</a></li>
+        <li><a href="#/leagues" ng-click="menuCollapse()">Leagues</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<div ng-app="Codenames">
+  <div ng-view></div>
+  <div ui-view></div>
+</div>
+</body>
+</html>
