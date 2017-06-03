@@ -5,7 +5,7 @@ import java.util.UUID;
 
 import org.springframework.data.annotation.Id;
 
-public class GameBoard {
+public class GameBoards {
 	
 	@Id
 	private String id;
@@ -14,7 +14,7 @@ public class GameBoard {
 	private WordList wordList;
 	private TeamList teamList;
 	
-	public GameBoard(){
+	public GameBoards(){
 		this.teamList = new TeamList();
 	}
 	public String getId() {

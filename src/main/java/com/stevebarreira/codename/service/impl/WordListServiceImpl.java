@@ -1,8 +1,10 @@
 package com.stevebarreira.codename.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,7 +43,7 @@ public class WordListServiceImpl implements WordListService {
 	}
 	
 	private List<String> randomizedWordList (List<String> inputList, Integer sizeOfOutput){
-		List<String> randomWordList = new ArrayList<String>();
+		Set<String> randomWordList = new HashSet<String>();
 		
 		int size = inputList.size();
 		for (int i = 0; i < sizeOfOutput; i ++){
@@ -49,7 +51,7 @@ public class WordListServiceImpl implements WordListService {
 			randomWordList.add(inputList.get(randomSelection).toUpperCase());
 		}
 		
-		return randomWordList;
+		return new ArrayList<String>(randomWordList);
 	}
 
 	@Override

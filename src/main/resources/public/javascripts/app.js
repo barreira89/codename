@@ -1,4 +1,4 @@
-var app = angular.module('Football', ['ui.bootstrap', 'ngRoute', 'ui.router']);
+var app = angular.module('Codenames', ['ui.bootstrap', 'ngRoute', 'ui.router', 'ngStomp']);
 app.constant('USER_ROLES',{
   all: '*',
   admin: 'admin',
@@ -6,12 +6,28 @@ app.constant('USER_ROLES',{
 });
 app.config(['$stateProvider', '$urlRouterProvider', 'USER_ROLES', function($stateProvider, $urlRouterProvider, USER_ROLES){
   $stateProvider
-    .state('gameboard', {
-        url: '/',
-        controller: 'MainController',
-        templateUrl: '/views/gameboard.html',
-        data: {authorizedRoles: [USER_ROLES.all]}
-      })
+	.state('codemaster', {
+		  url: '/gameroom/:gameId/codemaster',
+		  controller: 'GameRoomController',
+		  templateUrl: '/views/codemaster.html',
+		  data: {authorizedRoles: [USER_ROLES.all]},
+		  resolve: {
+		  	currentGame: ['$stateParams', 'games', function($stateParams, games) {
+		  		return games.getGameById($stateParams.gameId)
+		  		}]
+		  }
+	})
+   .state('gameroom', {
+      url: '/gameroom/:gameId',
+      controller: 'GameRoomController',
+      templateUrl: '/views/gameroom.html',
+      data: {authorizedRoles: [USER_ROLES.all]},
+      resolve: {
+      	currentGame: ['$stateParams', 'games', function($stateParams, games) {
+      		return games.getGameById($stateParams.gameId)
+      		}]
+      }
+    })
   	.state('login', {
   	    url: '/login',
   	    templateUrl: '/views/login.html',
@@ -20,7 +36,15 @@ app.config(['$stateProvider', '$urlRouterProvider', 'USER_ROLES', function($stat
   	        authorizedRoles: [USER_ROLES.all]
   	    }
   	})
-    $urlRouterProvider.otherwise('/');
+  	.state('lobby', {
+  		url: '/lobby',
+  		templateUrl: '/views/lobby.html',
+  		controller: 'LobbyController',
+  		data: {
+  			authorizedRoles: [USER_ROLES.all]
+  		}
+  	})
+    $urlRouterProvider.otherwise('/lobby');
 }])
 app.constant('AUTH_EVENTS', {
   loginSuccess: 'auth-login-success',

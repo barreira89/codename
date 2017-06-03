@@ -1,16 +1,18 @@
-app.controller('MainController', ['$scope', 'gameboard', 'scoreboard', function($scope, gameboard, scoreboard) {
+app.controller('MainController', ['$scope', 'gameboard', 'scoreboard', 'currentGame', function($scope, gameboard, scoreboard, currentGame) {
 
-  $scope.team = 'RED';
+  $scope.team;
+    
+  $scope.currentGame = currentGame;
+  console.log(currentGame);
   
-  $scope.liveload = "LIVE LOADING BABY"
-
   $scope.blueRemaining = scoreboard.blue;
   $scope.redRemaining = scoreboard.red;
 
   gameboard.getNewGameBoard()
     .success((gameBoard)=>{
         $scope.gameBoard = gameBoard;
-        $scope.team = gameBoard.leadTeam.toUpperCase();
+        scoreboard.leadTeam.value = gameBoard.leadTeam.toUpperCase();
+        $scope.team = scoreboard.leadTeam;
         scoreboard.resetScore(gameBoard.leadTeam.toUpperCase());
     })
 
@@ -18,7 +20,8 @@ app.controller('MainController', ['$scope', 'gameboard', 'scoreboard', function(
     gameboard.getNewGameBoard()
       .success((gameBoard)=>{
           $scope.gameBoard = gameBoard;
-          $scope.team = gameBoard.leadTeam.toUpperCase();
+          scoreboard.leadTeam.value = gameBoard.leadTeam.toUpperCase();
+          $scope.team = scoreboard.leadTeam;
           scoreboard.resetScore(gameBoard.leadTeam.toUpperCase());
       })
   }

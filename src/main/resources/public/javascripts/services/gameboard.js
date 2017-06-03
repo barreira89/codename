@@ -1,4 +1,4 @@
-app.factory('gameboard', ['$http', '$q', function($http, $q) {
+app.factory('gameboard', ['$http', '$q', 'games', function($http, $q, games) {
     var gameservices = {};
 
     gameservices.getNewGameBoard = function() {
@@ -7,5 +7,80 @@ app.factory('gameboard', ['$http', '$q', function($http, $q) {
             url: '/api/gameboards'
         })
     }
+    
+    gameservices.getGameBoardById = function(id) {
+    	var gameBoardId = id || ''
+    	return $http({
+    		method: 'GET',
+    		url: '/api/gameboards/' + gameBoardId
+    	})
+    }
+    
+    gameservices.updateGameBoard = function(id, gameBoard) {
+    	var gameBoardId = id || ''
+    	return $http({
+    		method: 'PUT',
+    		url: '/api/gameboards/' + gameBoardId,
+    		data: gameBoard
+    	})
+    }
+    
+    gameservices.newGameBoardForGame = function(gameId) {
+    	if(!gameId) return false;
+    	return $http({
+    		method: 'POST',
+    		url: '/api/games/' + gameId + '/rounds'
+    	})
+    }
+    
+    gameservices.getNewRound = function(gameId) {
+    	var deferred = $q.defer();
+    	gameservices.newGameBoardForGame(gameId)
+    		.success((data) => {
+    			games.getGameById(gameId)
+    				.success((game) =>{
+    					deferred.resolve(game);
+    				})
+    				.error((err) =>{
+    					console.log(err);
+    					deferred.reject(err);
+    				})
+    		})
+    		.error((err) =>{
+    			console.log(err);
+    			deferred.reject(err);
+    		})
+    		
+    	return deferred.promise;
+    }
+    
+    gameservices.mapClues = function (clueList){
+    	if(!clueList) return
+    	return {
+    		red: clueList.filter((clue) => {return clue.team == 'RED'}),
+    		blue: clueList.filter((clue) => {return clue.team == 'BLUE'})
+    	}
+    }
+    
+    //Add to Clue Service
+    gameservices.getGameCluesByGameAndRound = function(gameId, roundNumber){
+    	if(!gameId || !roundNumber) return
+    	
+    	return $http({
+    		method: 'GET',
+    		url: '/api/games/' + gameId + '/rounds/' + roundNumber + '/clues'
+    	})
+    }
+    
+    gameservices.addGameClueByGameAndRound = function(gameId, roundNumber, clue){
+    	if(!gameId || !roundNumber) return
+    	
+    	return $http({
+    		method: 'POST',
+    		url: '/api/games/' + gameId + '/rounds/' + roundNumber + '/clues',
+    		data: clue
+    	})
+    }
+    
     return gameservices;
 }]);

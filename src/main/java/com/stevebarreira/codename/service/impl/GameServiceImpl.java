@@ -1,0 +1,157 @@
+package com.stevebarreira.codename.service.impl;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
+
+import com.stevebarreira.codename.model.Games;
+import com.stevebarreira.codename.repository.GameBoardRepository;
+import com.stevebarreira.codename.repository.GamesRepository;
+import com.stevebarreira.codename.model.GameBoards;
+import com.stevebarreira.codename.model.GameClue;
+import com.stevebarreira.codename.model.GameRound;
+import com.stevebarreira.codename.model.GameRow;
+import com.stevebarreira.codename.model.GameTile;
+import com.stevebarreira.codename.service.GameService;
+import com.stevebarreira.codename.service.WordListService;
+
+@Service
+public class GameServiceImpl implements GameService {
+
+	@Autowired
+	WordListService wordListService;
+	
+	@Autowired
+	GamesRepository gameRepository;
+	
+	@Autowired
+	GameBoardRepository gameBoardRepository;
+	
+	@Override
+	public GameBoards createRandomGameBoard() {
+		GameBoards gameBoard = new GameBoards();
+		gameBoard.setWordList(wordListService.getRandomWordList());
+		gameBoard.setGameRows(getRows());
+		gameBoard.assignTeams();
+		return gameBoardRepository.save(gameBoard);
+	}
+	
+	private GameRow createRow(){
+		GameRow gameRow = new GameRow();
+		List<GameTile> tiles = new ArrayList<GameTile>();
+		for(int i = 0; i < 5; i ++){
+			tiles.add(new GameTile());
+		}
+		gameRow.setRowTiles(tiles);
+		return gameRow;
+	}
+	
+	private List<GameRow> getRows(){
+		List<GameRow> gameRows = new ArrayList<GameRow>();
+		for(int i = 0; i < 5; i ++){
+			gameRows.add(createRow());
+		}
+		return gameRows;
+	}
+	
+	private GameRound getNewGameRound(int roundNumber){
+		GameRound gameRound = new GameRound();
+		gameRound.setGameBoard(createRandomGameBoard());
+		gameRound.setRoundNumber(roundNumber);
+		return gameRound;
+		
+	}
+
+	@Override
+	public Games createNewGame() {
+		Games game = new Games();
+		GameRound gameRound = getNewGameRound(1);
+		List<GameRound> rounds = new ArrayList<GameRound>();
+		rounds.add(gameRound);
+		game.setRounds(rounds);
+		return gameRepository.save(game);
+	}
+
+	@Override
+	public Games getGameById(String id) {
+		return gameRepository.findOne(id);
+	}
+
+	@Override
+	public Games newRoundForGame(String id) {
+		Games currentGame = gameRepository.findOne(id);
+		int highestRound = currentGame.getRounds().stream().max((p1, p2)-> Integer.compare(p1.getRoundNumber(), p2.getRoundNumber())).get().getRoundNumber();
+		highestRound ++;
+		currentGame.addGameRound(getNewGameRound(highestRound));
+		gameRepository.save(currentGame);
+		return currentGame;
+	}
+
+	@Override
+	public Page<Games> getAllGames(Pageable pageable) {
+		return gameRepository.findAll(pageable);
+	}
+
+	@Override
+	public Games updateGame(Games game) {
+		return gameRepository.save(game);
+	}
+
+	@Override
+	public GameBoards updateGameBoard(GameBoards gameBoard) {
+		return gameBoardRepository.save(gameBoard);
+	}
+
+	@Override
+	public List<GameBoards> getAllGameBoards() {
+		return gameBoardRepository.findAll();
+	}
+
+	@Override
+	public GameBoards getGameBoardById(String id) {
+		return gameBoardRepository.findOne(id);
+	}
+
+	@Override
+	public Games addClueToGameRound(String id, Integer roundNumber, GameClue gameClue) {
+		Games game = gameRepository.findOne(id);
+		
+		//Find Round by Number
+		Optional<GameRound> gameRound = game.getRounds().stream()
+			.filter(gr -> gr.getRoundNumber() == roundNumber)
+			.findFirst();
+		
+		//Add Clue
+		gameRound.ifPresent(gr2 -> gr2.addClue(gameClue));
+		
+		//Save Game
+		return gameRepository.save(game);
+		
+	}
+
+	@Override
+	public List<GameClue> getCluesByGameAndRound(String id, Integer roundNumber) {
+		Games game = gameRepository.findOne(id);
+		List<GameClue> gameClueList = new ArrayList<GameClue>();
+		
+		//Find Round by Number
+		Optional<GameRound> gameRound = game.getRounds().stream()
+			.filter(gr -> gr.getRoundNumber() == roundNumber)
+			.findFirst();
+		
+		if(gameRound.isPresent()){
+			gameClueList = gameRound.get().getGameClues();
+		}
+		
+		return gameClueList;
+	}
+	
+
+}
