@@ -1,14 +1,18 @@
 <div class="container">
 	<div class="row">
-		<table class="col-md-12">
-			<tr>
-				<th class="col-md-4">Game Id</th>
-				<th class="col-md-4">Status</th>
-				<th class="col-md-4">Join</th>
-			</tr>
+		<table class="col-md-12 table table-condensed">
+			<thead>
+				<tr>
+					<th class="col-md-3">Game ID</th>
+					<th class="col-md-3">Status</th>
+					<th class="col-md-3"> Created </th>
+					<th class="col-md-3">Join</th>
+				</tr>
+			</thead>
 			<tr ng-repeat="game in listOfGames">
 				<td>{{game.id}}</td>
 				<td>{{game.status}}</td>
+				<td>{{game.createdDate.millis | date : 'medium' }}
 				<td><button class="btn btn-primary btn-small"
 						ui-sref="gameroom({gameId: game.id })"
 						ng-click="getGameBoardById(game.rounds[0].gameBoard.id)">

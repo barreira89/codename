@@ -37,9 +37,13 @@ public class SocketController {
 	
 	@MessageMapping(CLUE_SOCKET_INBOUND)
     @SendTo(CLUE_SOCKET_OUTBOUND)
-    public GameClue testSocketID(@DestinationVariable String id, @DestinationVariable Integer roundNumber, @Payload GameClue message) throws Exception {
-		LOGGER.debug("Message Recieved | Game ID : " + id + " | Round : " + roundNumber);
-		LOGGER.debug(message.toString());
+    public GameClue testSocketID(
+    		@DestinationVariable String id, 
+    		@DestinationVariable Integer roundNumber, 
+    		@Payload GameClue message) throws Exception 
+	{
+		LOGGER.debug("Message Recieved | Game ID : {} | Round : {}", id, roundNumber);
+		
         GameClue gameClue =  new GameClue(message.getClue(), message.getNumberOfWords(), message.getTeam());
         gameService.addClueToGameRound(id, roundNumber, message);
         return gameClue;
@@ -48,7 +52,7 @@ public class SocketController {
 	@MessageMapping(GAMECHANGE_SOCKET_INBOUND)
     @SendTo(GAMECHANGE_SOCKET_OUTBOUND)
     public String updateGameBoard(@DestinationVariable String id, @DestinationVariable Integer roundNumber, @Payload String message) throws Exception {
-		LOGGER.debug("Message Recieved Game Change | Game ID : " + id + " | Round : " + roundNumber);
+		LOGGER.debug("Message Recieved | Game ID : {} | Round : {}", id, roundNumber);
         return "UPDATE";
     }
 	

@@ -9,3 +9,4 @@ app.factory('session', ['$http',  function($http) {
 
     return sessionObject;
 }]);
+);

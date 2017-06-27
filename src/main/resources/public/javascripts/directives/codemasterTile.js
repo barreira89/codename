@@ -1,4 +1,4 @@
-app.directive('codemasterTile', [ 'scoreboard', function(scoreboard) {
+app.directive('codemasterTile', [ 'scoreboard', 'style', function(scoreboard, style) {
 	return {
 		restrict : 'E',
 		scope : {
@@ -7,50 +7,16 @@ app.directive('codemasterTile', [ 'scoreboard', function(scoreboard) {
 			callback: '='
 		},
 		link : function(scope, elm, attr) {
-
+			
 			var clicked = scope.gametile.selected;
-			var colorMap = {
-				RED : 'RED',
-				BLUE : 'BLUE',
-				ASSASSIN : 'BLACK',
-				NEUTRAL : 'TAN'
-			}
-			
 			var tileTeam = scope.gametile.team;
-			var parent = elm.parent()[0]
 			
-			function setStyle(elm, color) {
-				var parent = elm.parent()[0];
-				parent.bgColor = color
-			}
+			scope.style = {}
 			
-			function assignColor(tileTeam){
-				switch (tileTeam) {
-				case 'RED':
-					setStyle(elm, 'RED');
-					if (!clicked)
-						scoreboard.scoreRed()
-					clicked = true
-					break
-				case 'BLUE':
-					parent.bgColor = "BLUE"
-					if (!clicked)
-						scoreboard.scoreBlue()
-					clicked = true
-					break
-				case 'NEUTRAL':
-					parent.bgColor = "TAN"
-					break
-				case 'ASSASSIN':
-					parent.bgColor = "BLACK"
-					break
-				}
-			}
-			assignColor(tileTeam);
-			
+			style.getParent(elm).bgColor = style.colorMap[tileTeam]
+
 			if (scope.gametile.selected) {
-				//Cover
-				elm[0].style.color = colorMap[scope.gametile.team]
+				scope.style = style.strikeThrough;
 			}
 
 		},

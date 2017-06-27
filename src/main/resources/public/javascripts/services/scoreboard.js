@@ -26,7 +26,7 @@ app.factory('scoreboard', ['$http', function($http) {
         	scoreboard.leadTeam.value == 'RED' ? scoreboard.leadTeam.value = 'BLUE' : scoreboard.leadTeam.value = 'RED'
         },
         calculateScores: function(gameBoard) {
-        	if(gameBoard.gameRows && gameBoard.gameRows){      		
+        	if(gameBoard.gameRows){      		
         		var score = gameBoard.gameRows
         			.map((row)=>{
 	            		return row.rowTiles

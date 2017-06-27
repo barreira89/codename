@@ -10,22 +10,30 @@ app.config(['$stateProvider', '$urlRouterProvider', 'USER_ROLES', function($stat
 		  url: '/gameroom/:gameId/codemaster',
 		  controller: 'GameRoomController',
 		  templateUrl: '/views/codemaster.html',
+		  params:{
+			  currentRound:	null
+		  },
 		  data: {authorizedRoles: [USER_ROLES.all]},
 		  resolve: {
 		  	currentGame: ['$stateParams', 'games', function($stateParams, games) {
 		  		return games.getGameById($stateParams.gameId)
-		  		}]
+		  		}],
+		  	currentRound:['$stateParams', function($stateParams){return $stateParams.currentRound}]
 		  }
 	})
    .state('gameroom', {
       url: '/gameroom/:gameId',
       controller: 'GameRoomController',
       templateUrl: '/views/gameroom.html',
+      params: {
+    	  currentRound: null
+      },
       data: {authorizedRoles: [USER_ROLES.all]},
       resolve: {
       	currentGame: ['$stateParams', 'games', function($stateParams, games) {
       		return games.getGameById($stateParams.gameId)
-      		}]
+      		}],
+      		currentRound:['$stateParams', function($stateParams){return $stateParams.currentRound}]
       }
     })
   	.state('login', {

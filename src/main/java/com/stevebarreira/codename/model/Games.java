@@ -2,11 +2,16 @@ package com.stevebarreira.codename.model;
 
 import java.util.List;
 
+import org.joda.time.DateTime;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
 public class Games {
+	
+	private static final String DEFAULT_STATUS = "ACTIVE";
 	
 	@Id
 	public String id;
@@ -14,11 +19,38 @@ public class Games {
 	private List<GameRound> rounds;
 	private int blueScore;
 	private int redScore;
+
+	//Not Working Yet
+	@CreatedDate
+	private DateTime createdDate;
 	
+	@LastModifiedDate
+	private DateTime modifiedDate;
 	
+
+	public void setStatus(GameStatus status) {
+		this.status = status;
+	}
+
 	public Games(){
 	}
 
+
+	public DateTime getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(DateTime createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	public DateTime getModifiedDate() {
+		return modifiedDate;
+	}
+
+	public void setModifiedDate(DateTime modifiedDate) {
+		this.modifiedDate = modifiedDate;
+	}
 
 	public String getId() {
 		return id;
@@ -34,7 +66,7 @@ public class Games {
 	}
 
 	public String getStatus() {
-		return (null != status) ? status.getStatus() : "INACTIVE";
+		return (null != status) ? status.getStatus() : DEFAULT_STATUS;
 	}
 
 	public void setStatus(String status) {

@@ -15,3 +15,43 @@ body {
 	color: black;
 	background-color: red;
 }
+.score-panel{
+	text-align: center;
+	text-weight: bold;
+}
+.codemaster-panel{
+}
+@media ( max-width : 763px) {
+	h4{
+		font-size: 1.0em;
+		margin: 5%;
+	}
+	.panel {
+		font-size: 0.9em;
+	}
+	.panel-heading {
+		height: 80%;	
+	}
+	.panel-body{
+	}
+	.gametile {
+		font-size: 1.0em;
+		padding: 1%;
+		margin: 2px;
+		text-shadow: none;
+	}
+	.gamecontrols button {
+		font-size: 1.0em;
+		padding: 0;
+		margin: 0;
+	}
+	.scoreboard h2{
+		font-size: 2.0em;
+	}
+	.cluelist .panel-body{
+		padding: 0px;
+	}
+	.cluelist h4{
+		font-size: 1.2em;
+	}
+}

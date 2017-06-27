@@ -10,12 +10,15 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class WordList {
 	
-	private static int defaultSize = 25;
+	private static int DEFAULT_LIST_SIZE = 25;
+	private final static String EMPTY_WORDLIST_VALUE = "EMPTYLIST";
 	private Random random = new Random();
 	private List<String> wordList;
+	private List<String> selectWordList;
 
 	public WordList(List<String> wordList) {
 		this.wordList = wordList;
+		this.selectWordList = new ArrayList<String>(wordList);
 	}
 
 	public List<String> getWordList() {
@@ -28,18 +31,23 @@ public class WordList {
 
 	public WordList(){
 		this.wordList = createWordMap();
+		this.selectWordList = new ArrayList<String>(wordList);
 	}
 	
 	@JsonIgnore
 	public String getRandomWord(){
-		int wordListSize = wordList.size();
-		int randomValue = wordListSize <= 0 ? 0 : random.nextInt(wordListSize);
-		String output = wordList.get(randomValue);
-		wordList.remove(randomValue);
+		int wordListSize = selectWordList.size();
+		if(wordListSize == 0){
+			return EMPTY_WORDLIST_VALUE;
+		}
+		int randomValue = wordListSize == 1 ? 0 : random.nextInt(wordListSize);
+		String output = selectWordList.get(randomValue);
+		selectWordList.remove(randomValue);
 		return output;
 	}
 	
-	private List<String> createWordMap() {
+	@JsonIgnore
+	public List<String> createWordMap() {
 		List<String> wordList = new ArrayList<String>();
 		wordList.add("PLASTIC");
 		wordList.add("DWARF");
@@ -66,8 +74,6 @@ public class WordList {
 		wordList.add("BEACH");
 		wordList.add("ROCK");
 		wordList.add("SPIDER");
-		wordList.add("FOREST");
-		wordList.add("KNIFE");
 		return wordList;
 	}
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -12,6 +13,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.stevebarreira.codename.model.Games;
+import com.stevebarreira.codename.model.WordList;
 import com.stevebarreira.codename.repository.GameBoardRepository;
 import com.stevebarreira.codename.repository.GamesRepository;
 import com.stevebarreira.codename.model.GameBoards;
@@ -27,53 +29,56 @@ public class GameServiceImpl implements GameService {
 
 	@Autowired
 	WordListService wordListService;
-	
+
 	@Autowired
 	GamesRepository gameRepository;
-	
+
 	@Autowired
 	GameBoardRepository gameBoardRepository;
-	
+
 	@Override
 	public GameBoards createRandomGameBoard() {
 		GameBoards gameBoard = new GameBoards();
-		gameBoard.setWordList(wordListService.getRandomWordList());
-		gameBoard.setGameRows(getRows());
-		gameBoard.assignTeams();
-		return gameBoardRepository.save(gameBoard);
+		WordList wordList = wordListService.getRandomWordList();
+		if (wordList != null) {
+			gameBoard.setWordList(wordList);
+			gameBoard.setGameRows(createGameRows());
+			gameBoard.assignTeams();
+			gameBoard = gameBoardRepository.save(gameBoard);
+		}
+		return gameBoard;
 	}
-	
-	private GameRow createRow(){
+
+	private GameRow createGameRow() {
 		GameRow gameRow = new GameRow();
 		List<GameTile> tiles = new ArrayList<GameTile>();
-		for(int i = 0; i < 5; i ++){
+		for (int i = 0; i < 5; i++) {
 			tiles.add(new GameTile());
 		}
 		gameRow.setRowTiles(tiles);
 		return gameRow;
 	}
-	
-	private List<GameRow> getRows(){
+
+	private List<GameRow> createGameRows() {
 		List<GameRow> gameRows = new ArrayList<GameRow>();
-		for(int i = 0; i < 5; i ++){
-			gameRows.add(createRow());
+		for (int i = 0; i < 5; i++) {
+			gameRows.add(createGameRow());
 		}
 		return gameRows;
 	}
-	
-	private GameRound getNewGameRound(int roundNumber){
+
+	private GameRound createNewGameRound(int roundNumber) {
 		GameRound gameRound = new GameRound();
 		gameRound.setGameBoard(createRandomGameBoard());
 		gameRound.setRoundNumber(roundNumber);
 		return gameRound;
-		
 	}
 
 	@Override
 	public Games createNewGame() {
 		Games game = new Games();
-		GameRound gameRound = getNewGameRound(1);
 		List<GameRound> rounds = new ArrayList<GameRound>();
+		GameRound gameRound = createNewGameRound(1);
 		rounds.add(gameRound);
 		game.setRounds(rounds);
 		return gameRepository.save(game);
@@ -87,9 +92,10 @@ public class GameServiceImpl implements GameService {
 	@Override
 	public Games newRoundForGame(String id) {
 		Games currentGame = gameRepository.findOne(id);
-		int highestRound = currentGame.getRounds().stream().max((p1, p2)-> Integer.compare(p1.getRoundNumber(), p2.getRoundNumber())).get().getRoundNumber();
-		highestRound ++;
-		currentGame.addGameRound(getNewGameRound(highestRound));
+		int highestRound = currentGame.getRounds().stream()
+				.max((p1, p2) -> Integer.compare(p1.getRoundNumber(), p2.getRoundNumber())).get().getRoundNumber();
+		highestRound++;
+		currentGame.addGameRound(createNewGameRound(highestRound));
 		gameRepository.save(currentGame);
 		return currentGame;
 	}
@@ -122,36 +128,33 @@ public class GameServiceImpl implements GameService {
 	@Override
 	public Games addClueToGameRound(String id, Integer roundNumber, GameClue gameClue) {
 		Games game = gameRepository.findOne(id);
-		
-		//Find Round by Number
-		Optional<GameRound> gameRound = game.getRounds().stream()
-			.filter(gr -> gr.getRoundNumber() == roundNumber)
-			.findFirst();
-		
-		//Add Clue
+
+		// Find Round by Number
+		Optional<GameRound> gameRound = game.getRounds().stream().filter(gr -> gr.getRoundNumber() == roundNumber)
+				.findFirst();
+
+		// Add Clue
 		gameRound.ifPresent(gr2 -> gr2.addClue(gameClue));
-		
-		//Save Game
+
+		// Save Game
 		return gameRepository.save(game);
-		
+
 	}
 
 	@Override
 	public List<GameClue> getCluesByGameAndRound(String id, Integer roundNumber) {
 		Games game = gameRepository.findOne(id);
 		List<GameClue> gameClueList = new ArrayList<GameClue>();
-		
-		//Find Round by Number
-		Optional<GameRound> gameRound = game.getRounds().stream()
-			.filter(gr -> gr.getRoundNumber() == roundNumber)
-			.findFirst();
-		
-		if(gameRound.isPresent()){
+
+		// Find Round by Number
+		Optional<GameRound> gameRound = game.getRounds().stream().filter(gr -> gr.getRoundNumber() == roundNumber)
+				.findFirst();
+
+		if (gameRound.isPresent()) {
 			gameClueList = gameRound.get().getGameClues();
 		}
-		
+
 		return gameClueList;
 	}
-	
 
 }

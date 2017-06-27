@@ -2,6 +2,7 @@ app.factory('socket', [ '$http', function($http) {
 	
 	var socketCallback;
 	var socketUpdateCallback;
+	var host;
 	
 	var socketService = {
 			itemList: {items:[]},
@@ -17,8 +18,16 @@ app.factory('socket', [ '$http', function($http) {
 			}
 	};
 	
+	$http({
+		method: 'GET',
+		url: '/',
+	}).then((data) => {
+		console.log(data);
+		host = data.data.ip;
+	})
+	
 	function connect(gameId) {
-		var sock = new SockJS("http://localhost:8080/ws/");
+		var sock = new SockJS("/ws/");
 		var stompClient = Stomp.over(sock);
 		
 		stompClient.connect({}, function(frame){

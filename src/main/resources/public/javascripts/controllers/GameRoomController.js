@@ -1,13 +1,19 @@
-app.controller('GameRoomController', ['$scope', 'gameboard', 'scoreboard', 'currentGame', 'socket', function($scope, gameboard, scoreboard, currentGame, socket) {
+app.controller('GameRoomController', ['$scope', 'gameboard', 'scoreboard', 'currentGame', 'currentRound', 'socket', function($scope, gameboard, scoreboard, currentGame, currentRound, socket) {
    
   var mRoundNumber;
+
+  
   
   function calculateScore(){
 	  if($scope.gameBoard) scoreboard.calculateScores($scope.gameBoard)
   }
   
   function refreshGameBoard (){
+	  
+	  
 	  if($scope.gameBoard) {
+		  
+		  //Get Game Board By Id, then get the clues for the round number
 		  gameboard.getGameBoardById($scope.gameBoard.id)
 		  	.success((data)=>{
 		  		$scope.gameBoard = data;
@@ -23,6 +29,25 @@ app.controller('GameRoomController', ['$scope', 'gameboard', 'scoreboard', 'curr
 		  	.error((err) => {
 		  		console.log(err)
 		  	})
+	  }
+  }
+  
+  function selectRoundNumber(roundNumber){
+	  mRoundNumber = roundNumber;
+	  $scope.selectedRoundNumber = roundNumber;
+	  if($scope.game && $scope.game.rounds) {
+		 var currentRound =  $scope.game.rounds.find((round) => {
+			  return round.roundNumber == roundNumber
+		  })
+		  $scope.gameBoard = currentRound.gameBoard;
+		  refreshGameBoard()
+		  
+		  //Handle Clues
+		  $scope.clueListServer = gameboard.mapClues(currentRound.gameClues);
+		  console.log($scope.clueListServer)
+		  var redClue = gameboard.mapClues(currentRound.gameClues);
+		  console.log(redClue);
+		  calculateScore()
 	  }
   }
   
@@ -47,7 +72,7 @@ app.controller('GameRoomController', ['$scope', 'gameboard', 'scoreboard', 'curr
   $scope.clueList = socket.clueList;
   $scope.updateGameBoard = updateGameBoard;
   $scope.refreshGameBoard = refreshGameBoard;
-  
+  $scope.selectedRoundNumber = currentRound;
   $scope.callback = function(){
 	  updateGameBoard();
 	  socket.sendUpdate(mRoundNumber);
@@ -67,22 +92,12 @@ app.controller('GameRoomController', ['$scope', 'gameboard', 'scoreboard', 'curr
 	  //socket.sendClue(clue, numberOfWords, team, mRoundNumber);
   }
   
-  $scope.selectRoundNumber = function (roundNumber) {
-	  mRoundNumber = roundNumber;
-	  if($scope.game && $scope.game.rounds) {
-		 var currentRound =  $scope.game.rounds.find((round) => {
-			  return round.roundNumber == roundNumber
-		  })
-		  $scope.gameBoard = currentRound.gameBoard;
-		  refreshGameBoard()
-		  
-		  //Handle Clues Clues
-		  $scope.clueListServer = gameboard.mapClues(currentRound.gameClues);
-		  console.log($scope.clueListServer)
-		  var redClue = gameboard.mapClues(currentRound.gameClues);
-		  console.log(redClue);
-		  calculateScore()
-	  }
+  $scope.selectRoundNumber = selectRoundNumber
+  
+  if(currentRound){
+	  selectRoundNumber(currentRound)
+  } else {
+	  selectRoundNumber(1)
   }
   
   $scope.getNewRound = function() {

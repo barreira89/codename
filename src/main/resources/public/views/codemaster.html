@@ -1,30 +1,41 @@
 <div class="col-md-2 col-xs-6">
-	<h2> Rounds </h2>
-	<div ng-repeat="round in game.rounds">
-		<a ng-click="selectRoundNumber(round.roundNumber)"> Round Number: 
-			{{round.roundNumber}} </a>
+	<div class="panel panel-default">
+	<div class="panel-heading"><h4>Round | {{selectedRoundNumber}}</h4></div>
+	<div class="panel-body">
+		<div ng-repeat="round in game.rounds">
+			<a ng-click="selectRoundNumber(round.roundNumber)"> Round Number: {{round.roundNumber}} </a>
+		</div>
 	</div>
-	<button class="btn btn-primary" ng-click="updateGameBoard()"> Update </button>
-	<button class="btn btn-primary" ng-click="getNewRound()"> New Round </button>
-	<button class="btn btn-primary" ng-click="refreshGameBoard()"> Refresh </button>
+	</div>
 	<!-- Code Master Directive  -->
-	<input type="text" ng-model="clue.word"></input>
-	<input type="text" ng-model="clue.numberOfWords">
-	<button class="btn btn-primary" ng-click="sendClue()"> Send Clue</button>
-	<select ng-model="selectedTeam">
-		<option value="RED">Red</option>
-		<option value="BLUE">Blue</option>
-	</select>
+	<div class="panel panel-default codemaster-panel">
+	<div class="panel-heading"> <h4> Clue</h4></div>
+		<div class="form-group panel-body">
+			<label for="clueword"> Clue Word :</label>
+			<input type="text" class="form-control" ng-model="clue.word"></input>
+			<label for="cluenumber">Clue Number :</label>
+			<input type="text" class="form-control" ng-model="clue.numberOfWords"></input>
+			<label for="clueteam">Clue Team:</label>
+			<select class="form-control" ng-model="selectedTeam">
+				<option value="RED">Red</option>
+				<option value="BLUE">Blue</option>
+			</select>
+			<input type="submit" id="submit" class="btn btn-default" value="Send Clue" ng-click="sendClue()"/>
+		</div>
+	</div>
+	<!-- Make Clue Directive -->
+	<game-controls update="updateGameBoard" newround="getNewRound" refresh="refreshGameBoard" game="game"></game-controls>
 </div>
 <div class="col-md-10 col-xs-12">
 	<score-board ng-show="gameBoard"></score-board>
-	<table ng-data="gameBoard">
+	<table class="gameboard" ng-data="gameBoard">
 		<tr ng-repeat="gameRow in gameBoard.gameRows">
 			<td class="col-sm-2" ng-repeat="gameTile in gameRow.rowTiles">
-			<!-- <game-tile gametile="gameTile" team="team" callback="callback"></game-tile>  --><codemaster-tile gametile="gameTile" team="team" callback="callback"></codemaster-tile></td>
+				<codemaster-tile gametile="gameTile" team="team" callback="callback"></codemaster-tile>
+			</td>
 		</tr>
 	</table>
-	<div class="row">
+	<div class="row" ng-show="selectedRoundNumber">
 		<div class="col-md-6">
 		<h2>BLUE</h2>
 			<p ng-repeat="item in clueListServer.blue" ng-data="clueList">{{item.clue}}, {{item.numberOfWords}}</p>

@@ -26,4 +26,5 @@ app.controller('MainController', ['$scope', 'gameboard', 'scoreboard', 'currentG
       })
   }
 
+
 }]);

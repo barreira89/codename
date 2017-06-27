@@ -1,0 +1,26 @@
+<div class="cluelist">
+	<div class="col-md-6 col-xs-12">
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<div class="col-xs-6">
+					<h4>Red</h4>
+					<table class="table">
+						<tr ng-repeat="item in cluelist.red" ng-data="cluelist">
+							<td>{{item.clue}}</td>
+							<td>{{item.numberOfWords}}</td>
+						</tr>
+					</table>
+				</div>
+				<div class="col-xs-6">
+					<h4>Blue</h4>
+					<table class="table">
+						<tr ng-repeat="item in cluelist.blue" ng-data="cluelist">
+							<td>{{item.clue}}</td>
+							<td>{{item.numberOfWords}}</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

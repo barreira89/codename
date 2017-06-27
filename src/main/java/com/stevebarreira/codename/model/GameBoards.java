@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.util.Assert;
 
 public class GameBoards {
 	
@@ -41,7 +42,7 @@ public class GameBoards {
 		this.gameRows = gameRows;
 	}
 
-	public void assignTeams(){		
+	public void assignTeams() {
 		for(int i = 0; i < gameRows.size(); i++){
 			for(int x = 0; x < gameRows.get(i).getRowTiles().size(); x ++ ){
 				gameRows.get(i).getRowTiles().get(x).setTeam(teamList.getRandomTeam());
@@ -53,7 +54,7 @@ public class GameBoards {
 		this.leadTeam = teamList.getLeadTeam();
 	}
 	
-	private WordList getWordList() {
+	public WordList getWordList() {
 		return wordList;
 	}
 	public void setWordList(WordList wordList) {

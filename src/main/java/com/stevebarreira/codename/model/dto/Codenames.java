@@ -10,7 +10,7 @@ public class Codenames {
 	String id;
 	List<String> words;
 	
-	Codenames(){};
+	public Codenames(){};
 	
 	public String getId() {
 		return id;

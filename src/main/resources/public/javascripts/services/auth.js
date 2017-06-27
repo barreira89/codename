@@ -4,11 +4,7 @@ app.factory('auth', ['$q', '$timeout', '$http', function($q, $timeout, $http) {
     var userModel = {};
 
     authservices.isLoggedIn = function() {
-        if (user) {
-            return true;
-        } else {
-            return false;
-        }
+    	return user ? true : false
     }
 
     authservices.getUser = function() {

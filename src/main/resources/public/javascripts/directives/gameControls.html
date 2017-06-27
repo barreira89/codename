@@ -1,0 +1,13 @@
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h4>Game Controls II</h4>
+	</div>
+	<div class="form-group panel-body gamecontrols">
+		<div>
+			<button class="btn btn-primary col-xs-6" ng-click="updateGameBoard()"> Update</button>
+			<button class="btn btn-primary col-xs-6" ng-click="getNewRound()"> New Round</button>
+			<button class="btn btn-primary col-xs-6" ng-click="refreshGameBoard()">Refresh</button>
+			<button class="btn btn-primary col-xs-6" ui-sref="codemaster({gameId: game.id, currentRound: selectedRoundNumber})"> Codemaster</button>
+		</div>
+	</div>
+</div>
