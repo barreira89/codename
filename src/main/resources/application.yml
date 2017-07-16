@@ -1,0 +1,11 @@
+spring:
+    profiles: digital
+    data:
+        mongodb:
+            host: 138.197.24.195
+            port: 27017
+            dbname: test               
+server:
+    port: 8080
+logging:
+    path: "/opt/log"

@@ -16,8 +16,8 @@ app.factory('gameboard', ['$http', '$q', 'games', function($http, $q, games) {
     	})
     }
     
-    gameservices.updateGameBoard = function(id, gameBoard) {
-    	var gameBoardId = id || ''
+    gameservices.updateGameBoard = function(gameBoardId, gameBoard) {
+    	var gameBoardId = gameBoardId || ''
     	return $http({
     		method: 'PUT',
     		url: '/api/gameboards/' + gameBoardId,
@@ -80,6 +80,41 @@ app.factory('gameboard', ['$http', '$q', 'games', function($http, $q, games) {
     		url: '/api/games/' + gameId + '/rounds/' + roundNumber + '/clues',
     		data: clue
     	})
+    }
+    
+    /*
+     *   Returns:
+     *   	{gameBoard: gameboard, clueList: mappedCluesForRound}
+     * 
+     */
+
+    gameservices.refreshGameboard = function (gameBoardId, gameId, roundNumber) {
+    	var deferred = $q.defer();
+    	var gameBoardResponse = {
+    			gameBoard: {},
+    			clueList: {}
+    	}
+    	
+    	gameservices.getGameBoardById(gameBoardId)
+    		.success((gameBoardResult)=> {
+    			gameBoardResponse.gameBoard = gameBoardResult;
+    			
+    			gameservices.getGameCluesByGameAndRound(gameId, roundNumber)
+    				.success((clueResult)=> {
+    					gameBoardResponse.clueList = gameservices.mapClues(clueResult);
+    					deferred.resolve(gameBoardResponse)
+    				})
+    				.error((err) => {
+    					console.log(err)
+    					deferred.reject(err)
+    				})
+    		})
+    		.error((err) => {
+    			console.log(err)
+    			deferred.reject(err)
+    		})
+    		
+    	  return deferred.promise;
     }
     
     return gameservices;

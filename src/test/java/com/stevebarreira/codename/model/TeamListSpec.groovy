@@ -17,7 +17,7 @@ class TeamListSpec extends Specification {
 			teamListArray.count(Team.ASSASSIN) == 1;
 			teamListArray.count(Team.NEUTRAL) == 7;
 			if(teamList.getLead() == Team.BLUE)
-				teamListArray.count(Team.BLUE) == 9
+				teamListArray.count(Team.BLUE) == 9;
 	}
 	
 

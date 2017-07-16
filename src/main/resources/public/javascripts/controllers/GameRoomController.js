@@ -2,18 +2,19 @@ app.controller('GameRoomController', ['$scope', 'gameboard', 'scoreboard', 'curr
    
   var mRoundNumber;
 
-  
+  /*
+   * Local Functions
+   * 	Calculate Score
+   * 	Refresh Game Board
+   *    Select Round Number
+   */
   
   function calculateScore(){
 	  if($scope.gameBoard) scoreboard.calculateScores($scope.gameBoard)
   }
   
   function refreshGameBoard (){
-	  
-	  
 	  if($scope.gameBoard) {
-		  
-		  //Get Game Board By Id, then get the clues for the round number
 		  gameboard.getGameBoardById($scope.gameBoard.id)
 		  	.success((data)=>{
 		  		$scope.gameBoard = data;
@@ -44,9 +45,6 @@ app.controller('GameRoomController', ['$scope', 'gameboard', 'scoreboard', 'curr
 		  
 		  //Handle Clues
 		  $scope.clueListServer = gameboard.mapClues(currentRound.gameClues);
-		  console.log($scope.clueListServer)
-		  var redClue = gameboard.mapClues(currentRound.gameClues);
-		  console.log(redClue);
 		  calculateScore()
 	  }
   }
@@ -70,10 +68,9 @@ app.controller('GameRoomController', ['$scope', 'gameboard', 'scoreboard', 'curr
   $scope.blueRemaining = scoreboard.blue;
   $scope.redRemaining = scoreboard.red;
   $scope.clueList = socket.clueList;
-  $scope.updateGameBoard = updateGameBoard;
-  $scope.refreshGameBoard = refreshGameBoard;
   $scope.selectedRoundNumber = currentRound;
-  $scope.callback = function(){
+  
+  $scope.gameTileCallBack = function(){
 	  updateGameBoard();
 	  socket.sendUpdate(mRoundNumber);
   }

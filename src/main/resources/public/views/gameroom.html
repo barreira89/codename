@@ -4,7 +4,7 @@
 	<table ng-data="gameBoard">
 		<tr ng-repeat="gameRow in gameBoard.gameRows">
 			<td class="col-xs-2 gametile" ng-repeat="gameTile in gameRow.rowTiles" >
-				<game-tile gametile="gameTile" team="team" callback="callback"></game-tile>
+				<game-tile gametile="gameTile" team="team" callback="gameTileCallBack"></game-tile>
 			</td>
 		</tr>
 	</table>
@@ -21,7 +21,7 @@
 	</div>
 	</div>
 	<!-- Create Game Control Directive -->
-	<game-controls update="updateGameBoard" newround="getNewRound" refresh="refreshGameBoard" game="game"></game-controls>
+	<game-controls newround="getNewRound" game="game" gameboard="gameBoard" roundnumber="selectedRoundNumber"></game-controls>
 </div>
 
 

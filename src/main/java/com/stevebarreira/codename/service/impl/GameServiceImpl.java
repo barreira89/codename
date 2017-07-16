@@ -146,13 +146,16 @@ public class GameServiceImpl implements GameService {
 		Games game = gameRepository.findOne(id);
 		List<GameClue> gameClueList = new ArrayList<GameClue>();
 
-		// Find Round by Number
-		Optional<GameRound> gameRound = game.getRounds().stream().filter(gr -> gr.getRoundNumber() == roundNumber)
-				.findFirst();
-
-		if (gameRound.isPresent()) {
-			gameClueList = gameRound.get().getGameClues();
+		Optional<GameRound> gameRound = Optional.empty();
+		
+		if(game != null && game.getRounds()!= null) {
+			gameRound = game.getRounds().stream().filter(gr -> gr.getRoundNumber() == roundNumber).findFirst();
 		}
+
+		gameRound.ifPresent(gr -> {
+			
+			gameClueList.addAll(gr.getGameClues());
+		});
 
 		return gameClueList;
 	}
