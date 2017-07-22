@@ -21,6 +21,7 @@ import com.stevebarreira.codename.model.GameClue;
 import com.stevebarreira.codename.model.GameRound;
 import com.stevebarreira.codename.model.GameRow;
 import com.stevebarreira.codename.model.GameTile;
+import com.stevebarreira.codename.service.GameBoardService;
 import com.stevebarreira.codename.service.GameService;
 import com.stevebarreira.codename.service.WordListService;
 
@@ -35,41 +36,13 @@ public class GameServiceImpl implements GameService {
 
 	@Autowired
 	GameBoardRepository gameBoardRepository;
-
-	@Override
-	public GameBoards createRandomGameBoard() {
-		GameBoards gameBoard = new GameBoards();
-		WordList wordList = wordListService.getRandomWordList();
-		if (wordList != null) {
-			gameBoard.setWordList(wordList);
-			gameBoard.setGameRows(createGameRows());
-			gameBoard.assignTeams();
-			gameBoard = gameBoardRepository.save(gameBoard);
-		}
-		return gameBoard;
-	}
-
-	private GameRow createGameRow() {
-		GameRow gameRow = new GameRow();
-		List<GameTile> tiles = new ArrayList<GameTile>();
-		for (int i = 0; i < 5; i++) {
-			tiles.add(new GameTile());
-		}
-		gameRow.setRowTiles(tiles);
-		return gameRow;
-	}
-
-	private List<GameRow> createGameRows() {
-		List<GameRow> gameRows = new ArrayList<GameRow>();
-		for (int i = 0; i < 5; i++) {
-			gameRows.add(createGameRow());
-		}
-		return gameRows;
-	}
+	
+	@Autowired
+	GameBoardService gameBoardService;
 
 	private GameRound createNewGameRound(int roundNumber) {
 		GameRound gameRound = new GameRound();
-		gameRound.setGameBoard(createRandomGameBoard());
+		gameRound.setGameBoard(gameBoardService.createRandomGameBoard());
 		gameRound.setRoundNumber(roundNumber);
 		return gameRound;
 	}
@@ -111,21 +84,6 @@ public class GameServiceImpl implements GameService {
 	}
 
 	@Override
-	public GameBoards updateGameBoard(GameBoards gameBoard) {
-		return gameBoardRepository.save(gameBoard);
-	}
-
-	@Override
-	public List<GameBoards> getAllGameBoards() {
-		return gameBoardRepository.findAll();
-	}
-
-	@Override
-	public GameBoards getGameBoardById(String id) {
-		return gameBoardRepository.findOne(id);
-	}
-
-	@Override
 	public Games addClueToGameRound(String id, Integer roundNumber, GameClue gameClue) {
 		Games game = gameRepository.findOne(id);
 
@@ -153,8 +111,9 @@ public class GameServiceImpl implements GameService {
 		}
 
 		gameRound.ifPresent(gr -> {
-			
-			gameClueList.addAll(gr.getGameClues());
+			if(gr.getGameClues() != null) {
+				gameClueList.addAll(gr.getGameClues());
+			}
 		});
 
 		return gameClueList;

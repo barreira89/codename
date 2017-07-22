@@ -13,8 +13,6 @@ import com.stevebarreira.codename.model.GameClue;
 //Breakout into gameboard service
 public interface GameService {
 	
-	public GameBoards createRandomGameBoard();
-	
 	public Games createNewGame();
 	
 	public Games getGameById(String id);
@@ -29,10 +27,4 @@ public interface GameService {
 	
 	public Games updateGame(Games game);
 	
-	public GameBoards updateGameBoard(GameBoards gameBoard);
-	
-	public List<GameBoards> getAllGameBoards();
-	
-	public GameBoards getGameBoardById(String id);
-
 }

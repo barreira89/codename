@@ -14,6 +14,7 @@ import com.stevebarreira.codename.model.GameBoards;
 import com.stevebarreira.codename.model.WordList;
 import com.stevebarreira.codename.model.dto.Codenames;
 import com.stevebarreira.codename.repository.WordlistRepository;
+import com.stevebarreira.codename.service.GameBoardService;
 import com.stevebarreira.codename.service.GameService;
 import com.stevebarreira.codename.service.WordListService;
 
@@ -25,26 +26,29 @@ public class GameBoardController {
 		private GameService gamesService;
 		
 		@Autowired
+		private GameBoardService gameBoardService;
+		
+		@Autowired
 		WordListService wordListService;
 		
 		@RequestMapping(method = RequestMethod.GET, value = "/gameboards",produces=MediaType.APPLICATION_JSON_VALUE)
 		public List<GameBoards> getRandomGameBoard () {	
-			return gamesService.getAllGameBoards();
+			return gameBoardService.getAllGameBoards();
 		}
 		
 		@RequestMapping(method = RequestMethod.POST, value = "/gameboards",produces=MediaType.APPLICATION_JSON_VALUE)
 		public GameBoards createGameBoard () {	
-			return gamesService.createRandomGameBoard();
+			return gameBoardService.createRandomGameBoard();
 		}
 		
 		@RequestMapping(method = RequestMethod.GET, value = "/gameboards/{id}",produces=MediaType.APPLICATION_JSON_VALUE)
 		public GameBoards getGameBoardById (@PathVariable(value="id") String id) {	
-			return gamesService.getGameBoardById(id);
+			return gameBoardService.getGameBoardById(id);
 		}
 		
 		@RequestMapping(method = RequestMethod.PUT, value = "/gameboards/{id}",produces=MediaType.APPLICATION_JSON_VALUE)
 		public GameBoards getRandomGameBoard (@RequestBody GameBoards gameBoard) {	
-			return gamesService.updateGameBoard(gameBoard);
+			return gameBoardService.updateGameBoard(gameBoard);
 		}
 		
 		
