@@ -2,7 +2,9 @@ package com.stevebarreira.codename.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,15 +86,20 @@ public class GameServiceImpl implements GameService {
 	}
 
 	@Override
-	public Games addClueToGameRound(String id, Integer roundNumber, GameClue gameClue) {
+	public Games addClueToGameRound(String id, Integer roundNumber, GameClue gameClue) {		
+		Optional<GameClue> gameClueToAdd = Optional.ofNullable(gameClue);
+				
 		Games game = gameRepository.findOne(id);
-
+		
 		// Find Round by Number
-		Optional<GameRound> gameRound = game.getRounds().stream().filter(gr -> gr.getRoundNumber() == roundNumber)
+		Optional<GameRound> gameRound = game.getRounds().stream()
+				.filter(gr -> gr.getRoundNumber() == roundNumber)
 				.findFirst();
 
 		// Add Clue
-		gameRound.ifPresent(gr2 -> gr2.addClue(gameClue));
+		gameRound.ifPresent(gr2 -> {
+			gameClueToAdd.ifPresent(gc -> gr2.addClue(gc));
+		});
 
 		// Save Game
 		return gameRepository.save(game);
@@ -101,20 +108,22 @@ public class GameServiceImpl implements GameService {
 
 	@Override
 	public List<GameClue> getCluesByGameAndRound(String id, Integer roundNumber) {
-		Games game = gameRepository.findOne(id);
 		List<GameClue> gameClueList = new ArrayList<GameClue>();
-
-		Optional<GameRound> gameRound = Optional.empty();
 		
-		if(game != null && game.getRounds()!= null) {
-			gameRound = game.getRounds().stream().filter(gr -> gr.getRoundNumber() == roundNumber).findFirst();
-		}
+		Optional.ofNullable(gameRepository.findOne(id))
+			.ifPresent(resultingGame -> {
+				Optional.ofNullable(resultingGame.getRounds())
+					.ifPresent(foundGameRounds -> {
+						foundGameRounds.stream().filter(gr -> gr.getRoundNumber() == roundNumber).findFirst()
+						.ifPresent(matchingGameRound -> {
+							Optional.ofNullable(matchingGameRound.getGameClues())
+								.ifPresent(matchingGameClueList -> {
+									gameClueList.addAll(matchingGameClueList);
+							});
+						});
+					});
+			});
 
-		gameRound.ifPresent(gr -> {
-			if(gr.getGameClues() != null) {
-				gameClueList.addAll(gr.getGameClues());
-			}
-		});
 
 		return gameClueList;
 	}

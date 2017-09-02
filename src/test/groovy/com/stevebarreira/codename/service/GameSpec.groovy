@@ -19,13 +19,17 @@ import spock.lang.Specification
 
 class GameSpec extends Specification {
 	
+	/*
+	 * Games objects used for testing
+	 */
+	
 	@Shared
-	def emptyGame = new Games(
+	Games emptyGame = new Games(
 		rounds: [new GameRound()]
 	)
 	
 	@Shared
-	def defaultGameClues = [
+	List<GameClue> defaultGameClues = [
 		new GameClue(
 			numberOfWords: 2,
 			clue: 'TEST CLUE',
@@ -37,6 +41,25 @@ class GameSpec extends Specification {
 			team: 'RED'
 		)
 	]
+	
+	@Shared
+	Games defaultGame = new Games(
+		rounds: [
+			new GameRound(
+				id: '123123123',
+				roundNumber: 1,
+				gameClues: defaultGameClues,
+				gameBoard: defaultGameBoard
+				),
+			new GameRound(
+				id: '99',
+				roundNumber: 3
+				)
+			
+		]
+	)
+	
+	
 	
 	def wordListOf25(){
 		def array = new ArrayList<String>()
@@ -62,26 +85,15 @@ class GameSpec extends Specification {
 	def defaultWordList = new WordList(
 				wordList: ["TEST", "TEST1"]
 		)
-	
 		
 	@Shared
-	def defaultGameBoard = new GameBoards(
+	GameBoards defaultGameBoard = new GameBoards(
 			leadTeam: Team.RED.getValueOf(),
 			gameRows: [new GameRow(),new GameRow()],
 			wordList: defaultWordList
 		)
 	
-	@Shared
-	Games defaultGame = new Games(
-		rounds: [
-			new GameRound(
-				id: '123123123',
-				roundNumber: 1,
-				gameClues: defaultGameClues,
-				gameBoard: defaultGameBoard
-				)	
-		]	
-	)
+	
 	
 	@Shared
 	Page<Games> defaultPageGames = new PageImpl<Games>([defaultGame], new PageRequest(0, 1), 1)
