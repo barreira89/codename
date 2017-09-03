@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.stevebarreira.codename.model.GameBoards;
 import com.stevebarreira.codename.model.GameRow;
@@ -13,6 +14,7 @@ import com.stevebarreira.codename.repository.GameBoardRepository;
 import com.stevebarreira.codename.service.GameBoardService;
 import com.stevebarreira.codename.service.WordListService;
 
+@Service
 public class GameBoardServiceImpl implements GameBoardService {
 
 	@Autowired
