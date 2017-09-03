@@ -7,7 +7,7 @@ import spock.lang.Unroll
 class TeamListSpec extends Specification {
 	
 	@Unroll
-	def "Hello World"(){
+	def 'teamList - createRandomTeamList'(){
 		given:
 			def teamList = new TeamList()
 			def teamListArray = teamList.getTeamList();
