@@ -92,7 +92,7 @@ class GameServiceSpec extends GameSpec {
 
 		where:
 		scenario 			     | gameRepoResult   | pageable                  | expected      | expectedSize
-		'Happy Path' 		     | defaultPageGames | new PageRequest(0, 2)     | [defaultGame]| 1
+		'Happy Path' 		     | defaultPageGames | new PageRequest(0, 2)     | [defaultGame] | 1
 		'Mutiple Page'           | listOf4PageGames | new PageRequest(0, 1)     | listOf4Games  | 4
 	}
 
