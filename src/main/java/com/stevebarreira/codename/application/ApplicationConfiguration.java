@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 public class ApplicationConfiguration {
 
 	@Bean
-	Random generator(){
+	public Random generator(){
 		return new Random();
 	}
 }

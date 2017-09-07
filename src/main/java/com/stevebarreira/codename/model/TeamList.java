@@ -1,10 +1,10 @@
 package com.stevebarreira.codename.model;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
+
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class TeamList {
 
@@ -14,7 +14,7 @@ public class TeamList {
 	private List<Team> selectTeamList;
 	private String leadTeam;
 	private Team lead;
-
+	
 	public List<Team> getTeamList() {
 		return teamList;
 	}

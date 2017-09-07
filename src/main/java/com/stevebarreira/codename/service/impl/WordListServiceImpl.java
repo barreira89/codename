@@ -37,13 +37,7 @@ public class WordListServiceImpl implements WordListService {
 	@Override
 	public WordList getRandomWordList() {
 		List<String> wordList = getWordListFromRepo();
-		try {
-			return new WordList(randomizedWordList(wordList, DEFAULTSIZE));
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
+		return new WordList(randomizedWordList(wordList, DEFAULTSIZE));
 	}
 
 	@Override
