@@ -40,17 +40,6 @@ public class WordListServiceImpl implements WordListService {
 		return new WordList(randomizedWordList(wordList, DEFAULTSIZE));
 	}
 
-	@Override
-	public List<String> getRandomWordList(Integer size) {
-		List<String> wordList = getWordListFromRepo();
-		try {
-			return randomizedWordList(wordList, size);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-
 	private List<String> getWordListFromRepo() {
 		Codenames codeNameList;
 		List<Codenames> wordList = wordListRepository.findAll();
@@ -85,11 +74,4 @@ public class WordListServiceImpl implements WordListService {
 
 		return randomWordList;
 	}
-
-	@Override
-	public List<String> getRandomWordListString() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

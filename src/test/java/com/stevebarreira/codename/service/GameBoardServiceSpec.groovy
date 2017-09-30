@@ -4,8 +4,9 @@ import com.stevebarreira.codename.model.GameBoards
 import com.stevebarreira.codename.model.WordList
 import com.stevebarreira.codename.repository.GameBoardRepository
 import com.stevebarreira.codename.service.impl.GameBoardServiceImpl
+import spock.lang.Specification
 
-class GameBoardServiceSpec extends GameSpec {
+class GameBoardServiceSpec extends Specification implements GameSpec {
 	
 	WordListService mockWordListService = Mock()
 	GameBoardRepository mockGameBoardRepository = Mock()

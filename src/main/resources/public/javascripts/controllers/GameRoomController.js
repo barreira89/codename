@@ -63,13 +63,16 @@ app.controller('GameRoomController', ['$scope', 'gameboard', 'scoreboard', 'curr
   }
   
   // Scope Set Up
-  
-  $scope.game = currentGame.data;
-  $scope.blueRemaining = scoreboard.blue;
-  $scope.redRemaining = scoreboard.red;
-  $scope.clueList = socket.clueList;
-  $scope.selectedRoundNumber = currentRound;
-  
+  function initScope(){
+      $scope.game = currentGame.data;
+      $scope.blueRemaining = scoreboard.blue;
+      $scope.redRemaining = scoreboard.red;
+      $scope.clueList = socket.clueList;
+      $scope.selectedRoundNumber = currentRound;
+  }
+
+  initScope()
+
   $scope.gameTileCallBack = function(){
 	  updateGameBoard();
 	  socket.sendUpdate(mRoundNumber);
@@ -91,11 +94,7 @@ app.controller('GameRoomController', ['$scope', 'gameboard', 'scoreboard', 'curr
   
   $scope.selectRoundNumber = selectRoundNumber
   
-  if(currentRound){
-	  selectRoundNumber(currentRound)
-  } else {
-	  selectRoundNumber(1)
-  }
+
   
   $scope.getNewRound = function() {
 	  gameboard.getNewRound($scope.game.id)
@@ -107,7 +106,7 @@ app.controller('GameRoomController', ['$scope', 'gameboard', 'scoreboard', 'curr
 	  	})
   }
   
-  var recieveClue = function (message) {
+  var receiveClue = function (message) {
 	  console.log(message);
 	  $scope.$apply();
   }
@@ -115,7 +114,13 @@ app.controller('GameRoomController', ['$scope', 'gameboard', 'scoreboard', 'curr
   var receiveUpdate = function () {
 	  refreshGameBoard();
   }
+
+    if(currentRound){
+  	  selectRoundNumber(currentRound)
+    } else {
+  	  selectRoundNumber(1)
+    }
   
-  socket.start($scope.game.id, recieveClue, receiveUpdate);
+  socket.start($scope.game.id, receiveClue, receiveUpdate);
   
 }]);
