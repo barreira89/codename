@@ -1,23 +1,16 @@
 package com.stevebarreira.codename.controller;
 
-import java.util.List;
-
+import com.stevebarreira.codename.model.GameClue;
+import com.stevebarreira.codename.model.Games;
+import com.stevebarreira.codename.service.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.stevebarreira.codename.model.GameClue;
-import com.stevebarreira.codename.model.Games;
-import com.stevebarreira.codename.service.GameService;
-import com.stevebarreira.codename.service.WordListService;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -25,9 +18,6 @@ public class GameController {
 
     @Autowired
     private GameService gamesService;
-
-    @Autowired
-    private WordListService wordListService;
 
     @Autowired
     private SimpMessagingTemplate template;
@@ -49,7 +39,6 @@ public class GameController {
             template.convertAndSend("/topic/gamechange/" + id, gameClue);
         }
         return game;
-
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/games/{id}/rounds/{roundNumber}/clues", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -72,8 +61,4 @@ public class GameController {
         return gamesService.updateGame(game);
     }
 
-//		@RequestMapping(method = RequestMethod.GET, value ="/wordlist", produces=MediaType.APPLICATION_JSON_VALUE)
-//		public WordList getAllWords(){
-//			return wordListService.getRandomWordList();
-//		}
 }

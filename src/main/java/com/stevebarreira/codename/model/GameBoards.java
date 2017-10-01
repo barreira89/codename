@@ -1,22 +1,24 @@
 package com.stevebarreira.codename.model;
 
+import org.springframework.data.annotation.Id;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
-import org.springframework.data.annotation.Id;
-import org.springframework.util.Assert;
+import java.util.stream.IntStream;
 
 public class GameBoards {
 	
 	@Id
 	private String id;
 	private String leadTeam; 
-	List<GameRow> gameRows;
+	private List<GameRow> gameRows;
 	private WordList wordList;
 	private TeamList teamList;
 	
 	public GameBoards(){
 		this.teamList = new TeamList();
+		this.gameRows = createGameRows();
 	}
 	public String getId() {
 			return id == null ? UUID.randomUUID().toString(): this.id;
@@ -59,5 +61,21 @@ public class GameBoards {
 	}
 	public void setWordList(WordList wordList) {
 		this.wordList = wordList;
-	}  
+	}
+
+	private List<GameRow> createGameRows() {
+		List<GameRow> gameRows = new ArrayList<>();
+		IntStream.rangeClosed(1, 5)
+				.forEach(i -> gameRows.add(createGameRow()));
+		return gameRows;
+	}
+
+	private GameRow createGameRow() {
+		GameRow gameRow = new GameRow();
+		List<GameTile> tiles = new ArrayList<>();
+		IntStream.rangeClosed(1, 5)
+				.forEach(i -> tiles.add(new GameTile()));
+		gameRow.setRowTiles(tiles);
+		return gameRow;
+	}
 }

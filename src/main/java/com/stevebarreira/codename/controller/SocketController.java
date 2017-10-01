@@ -1,5 +1,7 @@
 package com.stevebarreira.codename.controller;
 
+import com.stevebarreira.codename.model.GameClue;
+import com.stevebarreira.codename.service.GameService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,9 +10,6 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
-
-import com.stevebarreira.codename.model.GameClue;
-import com.stevebarreira.codename.service.GameService;
 
 @Controller
 public class SocketController {

@@ -1,11 +1,11 @@
 package com.stevebarreira.codename.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Document
 public class GameRound {
@@ -27,7 +27,7 @@ public class GameRound {
 
 	public void addClue(GameClue gameClue){
 		if(gameClues == null){
-			this.gameClues = new ArrayList<GameClue>();
+			this.gameClues = new ArrayList<>();
 		}
 		gameClues.add(gameClue);
 	}

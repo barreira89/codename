@@ -1,14 +1,11 @@
 package com.stevebarreira.codename.service;
 
+import com.stevebarreira.codename.model.GameClue;
 import com.stevebarreira.codename.model.Games;
-
-import java.util.List;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import com.stevebarreira.codename.model.GameBoards;
-import com.stevebarreira.codename.model.GameClue;
+import java.util.List;
 
 //Breakout into gameboard service
 public interface GameService {

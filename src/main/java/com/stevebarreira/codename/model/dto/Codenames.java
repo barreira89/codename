@@ -1,7 +1,8 @@
 package com.stevebarreira.codename.model.dto;
 
-import java.util.List;
 import org.springframework.data.annotation.Id;
+
+import java.util.List;
 
 public class Codenames {
 	

@@ -1,8 +1,7 @@
 package com.stevebarreira.codename.model;
 
-import org.springframework.data.annotation.Id;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.data.annotation.Id;
 
 public class GameTile {
 	

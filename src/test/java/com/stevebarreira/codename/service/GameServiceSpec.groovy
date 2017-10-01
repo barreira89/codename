@@ -4,7 +4,6 @@ import com.stevebarreira.codename.model.GameBoards
 import com.stevebarreira.codename.model.GameClue
 import com.stevebarreira.codename.model.GameRound
 import com.stevebarreira.codename.model.Games
-import com.stevebarreira.codename.repository.GameBoardRepository
 import com.stevebarreira.codename.repository.GamesRepository
 import com.stevebarreira.codename.service.impl.GameServiceImpl
 import org.springframework.data.domain.Page
@@ -16,15 +15,11 @@ import spock.lang.Unroll
 @Unroll
 class GameServiceSpec extends Specification implements GameSpec {
 
-    WordListService mockWordListService = Mock()
     GamesRepository mockGameRepository = Mock()
-    GameBoardRepository mockGameBoardRepository = Mock()
     GameBoardService mockGameBoardService = Mock()
 
     GameService gameService = new GameServiceImpl(
-            wordListService: mockWordListService,
             gameRepository: mockGameRepository,
-            gameBoardRepository: mockGameBoardRepository,
             gameBoardService: mockGameBoardService
     )
 
@@ -139,5 +134,82 @@ class GameServiceSpec extends Specification implements GameSpec {
         'Null Clue'  | '1'    | 1           | null                                                      || 2
         'No Round'   | '1'    | 45          | new GameClue(clue: "TEST", numberOfWords: 5, team: "RED") || 2
 
+    }
+
+    def 'addClueToGameRound - negative - #scenario'() {
+        when:
+        Games resultGame = gameService.addClueToGameRound(gameId, roundNumber, gameClue)
+
+
+        then:
+        1 * mockGameRepository.findOne(_ as String) >> gameFromRepo
+        0 * _
+
+        and:
+        !resultGame
+
+        where:
+        scenario                     | gameId | roundNumber | gameClue                                                  | gameFromRepo | result
+        'Nothing Returned From Repo' | '1'    | 1           | new GameClue(clue: "TEST", numberOfWords: 8, team: "RED") | null         | true
+
+    }
+
+    def 'addClueToGameRound - empty rounds - #scenario'() {
+        setup:
+        defaultGame.rounds = null
+
+        when:
+        Games resultGame = gameService.addClueToGameRound(gameId, roundNumber, gameClue)
+
+
+        then:
+        1 * mockGameRepository.findOne(_ as String) >> defaultGame
+        1 * mockGameRepository.save(_ as Games) >> defaultGame
+        0 * _
+
+        and:
+        resultGame
+        !resultGame.rounds
+
+        where:
+        scenario                     | gameId | roundNumber | gameClue                                                  | gameFromRepo | result
+        'Nothing Returned From Repo' | '1'    | 1           | new GameClue(clue: "TEST", numberOfWords: 8, team: "RED") | null         | true
+
+    }
+
+    def 'getGameById - #scenario'() {
+        when:
+        String gameId = "id"
+        Games resultGame = gameService.getGameById(gameId)
+
+        then:
+        1 * mockGameRepository.findOne(_ as String) >> resultFromRepo
+        0 * _
+
+        and:
+        resultGame == resultFromRepo
+
+        where:
+        scenario                   | resultFromRepo | expectedResult
+        'Happy Path - Result'      | defaultGame    | defaultGame
+        'Happy Path - Null Result' | null           | null
+    }
+
+    def 'updateGame - #scenario'() {
+        when:
+        String gameId = "id"
+        Games resultGame = gameService.updateGame(gameToUpdate)
+
+        then:
+        1 * mockGameRepository.save(gameToUpdate) >> gameToUpdate
+        0 * _
+
+        and:
+        resultGame == gameToUpdate
+
+        where:
+        scenario                   | gameToUpdate
+        'Happy Path - Result'      | defaultGame
+        'Happy Path - Null Result' | null
     }
 }

@@ -1,11 +1,7 @@
 package com.stevebarreira.codename.model
-import java.util.concurrent.CountDownLatch
 
 import spock.lang.Specification
 import spock.lang.Unroll
-
-import com.stevebarreira.codename.model.TeamList
-import com.stevebarreira.codename.service.WordListService
 
 class TeamListSpec extends Specification {
 	

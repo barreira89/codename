@@ -1,25 +1,18 @@
 package com.stevebarreira.codename.service.impl;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
-import java.util.Set;
-
-import javax.validation.constraints.AssertTrue;
-
+import com.stevebarreira.codename.model.WordList;
+import com.stevebarreira.codename.model.dto.Codenames;
+import com.stevebarreira.codename.repository.WordlistRepository;
+import com.stevebarreira.codename.service.WordListService;
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.stevebarreira.codename.controller.SocketController;
-import com.stevebarreira.codename.model.WordList;
-import com.stevebarreira.codename.model.dto.Codenames;
-import com.stevebarreira.codename.repository.WordlistRepository;
-import com.stevebarreira.codename.service.WordListService;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 @Service
 public class WordListServiceImpl implements WordListService {
@@ -60,7 +53,7 @@ public class WordListServiceImpl implements WordListService {
 	}
 
 	private List<String> randomizedWordList(List<String> inputList, Integer sizeOfOutput) {
-		List<String> randomWordList = new ArrayList<String>();
+		List<String> randomWordList = new ArrayList<>();
 
 		int size = inputList.size();
 		if (size < sizeOfOutput) {

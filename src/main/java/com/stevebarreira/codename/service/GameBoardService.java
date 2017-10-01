@@ -1,8 +1,8 @@
 package com.stevebarreira.codename.service;
 
-import java.util.List;
-
 import com.stevebarreira.codename.model.GameBoards;
+
+import java.util.List;
 
 public interface GameBoardService {
 	

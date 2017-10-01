@@ -1,8 +1,6 @@
-package com.stevebarreira.codename.model;
-import java.util.concurrent.CountDownLatch
+package com.stevebarreira.codename.model
 
-import spock.lang.Specification;
-import spock.lang.Unroll
+import spock.lang.Specification
 
 class WordListSpec extends Specification {
 	

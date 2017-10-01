@@ -11,9 +11,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class GameServiceImpl implements GameService {
@@ -76,38 +75,30 @@ public class GameServiceImpl implements GameService {
     @Override
     public Games addClueToGameRound(String id, Integer roundNumber, GameClue gameClue) {
         Optional<GameClue> gameClueToAdd = Optional.ofNullable(gameClue);
-
-        Games game = gameRepository.findOne(id);
-
-        // Find Round by Number
-        Optional<GameRound> gameRound = game.getRounds().stream()
-                .filter(gr -> gr.getRoundNumber() == roundNumber)
-                .findFirst();
-
-        // Add Clue
-        gameRound.ifPresent(foundGameRound -> gameClueToAdd.ifPresent(foundGameRound::addClue));
-
-        // Save Game
-        return gameRepository.save(game);
+        Optional<Games> game = Optional.ofNullable(gameRepository.findOne(id));
+        game
+                .map(Games::getRounds)
+                .flatMap(gameRounds -> gameRounds.stream()
+                        .filter(gr -> gr.getRoundNumber() == roundNumber)
+                        .findFirst()
+                )
+                .ifPresent(foundGameRound -> gameClueToAdd.ifPresent(foundGameRound::addClue));
+        game.ifPresent(gameRepository::save);
+        return game.orElse(null);
 
     }
 
     @Override
     public List<GameClue> getCluesByGameAndRound(String id, Integer roundNumber) {
-        List<GameClue> gameClueList = new ArrayList<GameClue>();
-
-        Optional.ofNullable(gameRepository.findOne(id))
-                .ifPresent(resultingGame ->
-                        Optional.ofNullable(resultingGame.getRounds())
-                                .ifPresent(foundGameRounds -> foundGameRounds.stream()
-                                        .filter(gr -> gr.getRoundNumber() == roundNumber)
-                                        .findFirst()
-                                        .ifPresent(matchingGameRound -> Optional.ofNullable(matchingGameRound.getGameClues()).ifPresent(gameClueList::addAll)))
-
-                );
-
-
-        return gameClueList;
+        return Optional.ofNullable(gameRepository.findOne(id))
+                .map(Games::getRounds)
+                .map(gameRounds -> gameRounds.stream()
+                        .filter(gr -> gr.getRoundNumber() == roundNumber)
+                        .map(GameRound::getGameClues)
+                        .filter(Objects::nonNull)
+                        .flatMap(Collection::stream)
+                        .collect(Collectors.toList()))
+                .orElseGet(Collections::emptyList);
     }
 
 }

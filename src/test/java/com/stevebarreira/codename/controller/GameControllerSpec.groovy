@@ -1,8 +1,8 @@
 package com.stevebarreira.codename.controller
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.stevebarreira.codename.service.GameService
 import com.stevebarreira.codename.model.Games
+import com.stevebarreira.codename.service.GameService
 import com.stevebarreira.codename.service.WordListService
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
@@ -13,21 +13,17 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 
 class GameControllerSpec extends Specification {
 
-    WordListService mockWordListService = Mock()
     GameService mockGameService = Mock()
 
-
     GameController gameController = new GameController(
-            wordListService: mockWordListService,
             gamesService: mockGameService
     )
-
+    ObjectMapper objectMapper = new ObjectMapper()
     MockMvc mockMvc = MockMvcBuilders.standaloneSetup(gameController).build()
 
     def 'POST - Games - Create Games'() {
         setup:
         Games gameToReturn = new Games()
-        ObjectMapper objectMapper = new ObjectMapper()
 
         when:
         def response = mockMvc.perform(post("/api/games")
