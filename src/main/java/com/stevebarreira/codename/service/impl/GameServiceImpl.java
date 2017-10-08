@@ -77,12 +77,12 @@ public class GameServiceImpl implements GameService {
         Optional<GameClue> gameClueToAdd = Optional.ofNullable(gameClue);
         Optional<Games> game = Optional.ofNullable(gameRepository.findOne(id));
         game
-                .map(Games::getRounds)
-                .flatMap(gameRounds -> gameRounds.stream()
-                        .filter(gr -> gr.getRoundNumber() == roundNumber)
-                        .findFirst()
-                )
-                .ifPresent(foundGameRound -> gameClueToAdd.ifPresent(foundGameRound::addClue));
+            .map(Games::getRounds)
+            .flatMap(gameRounds -> gameRounds.stream()
+                    .filter(gr -> gr.getRoundNumber() == roundNumber)
+                    .findFirst()
+            )
+            .ifPresent(foundGameRound -> gameClueToAdd.ifPresent(foundGameRound::addClue));
         game.ifPresent(gameRepository::save);
         return game.orElse(null);
 
@@ -92,12 +92,11 @@ public class GameServiceImpl implements GameService {
     public List<GameClue> getCluesByGameAndRound(String id, Integer roundNumber) {
         return Optional.ofNullable(gameRepository.findOne(id))
                 .map(Games::getRounds)
-                .map(gameRounds -> gameRounds.stream()
+                .flatMap(gameRounds -> gameRounds.stream()
                         .filter(gr -> gr.getRoundNumber() == roundNumber)
                         .map(GameRound::getGameClues)
                         .filter(Objects::nonNull)
-                        .flatMap(Collection::stream)
-                        .collect(Collectors.toList()))
+                        .findFirst())
                 .orElseGet(Collections::emptyList);
     }
 

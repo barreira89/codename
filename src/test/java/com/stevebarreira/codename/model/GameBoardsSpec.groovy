@@ -1,19 +1,24 @@
 package com.stevebarreira.codename.model
 
-import spock.lang.Ignore
 import spock.lang.Specification
 
-class GameBoardsSpec extends Specification{
+class GameBoardsSpec extends Specification {
 
-    @Ignore
-    def 'assignTeams'(){
+    def 'getId '() {
         when:
-        GameBoards gameBoards = new  GameBoards()
+        GameBoards gameBoards = new GameBoards(
+                id: id
+        )
+
+        gameBoards.getId()
 
         then:
-        gameBoards
-        gameBoards.getLeadTeam()
+        gameBoards.id
+        gameBoards.id.length() == 36
 
-
+        where:
+        scenario       | id
+        'ID Present'   | UUID.randomUUID()
+        'ID generated' | null
     }
 }

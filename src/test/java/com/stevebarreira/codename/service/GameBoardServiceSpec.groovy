@@ -1,6 +1,7 @@
 package com.stevebarreira.codename.service
 
 import com.stevebarreira.codename.model.GameBoards
+import com.stevebarreira.codename.model.Team
 import com.stevebarreira.codename.model.WordList
 import com.stevebarreira.codename.repository.GameBoardRepository
 import com.stevebarreira.codename.service.impl.GameBoardServiceImpl
@@ -19,22 +20,23 @@ class GameBoardServiceSpec extends Specification implements GameSpec {
     def 'createRandomGameBoard - valid'() {
         setup:
         WordList randomWordList = new WordList(wordList: wordListOf25())
-        GameBoards gameBoardRepoResult = new GameBoards(
-                wordList: randomWordList
-        )
 
         when:
         GameBoards gameBoardResult = gameBoardService.createRandomGameBoard()
 
         then:
         1 * mockWordListService.getRandomWordList() >> randomWordList
-        1 * mockGameBoardRepository.save(_ as GameBoards) >> gameBoardRepoResult
+        1 * mockGameBoardRepository.save(_ as GameBoards) >> {GameBoards gb -> return gb }
         0 * _
 
         and:
         gameBoardResult
         gameBoardResult.wordList
-        gameBoardResult.wordList.wordList.size == 25
+        gameBoardResult.wordList.wordList.size() == 25
+        gameBoardResult.gameRows.size() == 5
+        gameBoardResult.gameRows.rowTiles.flatten().size() == 25
+        gameBoardResult.gameRows.rowTiles.team.flatten().containsAll([Team.RED, Team.ASSASSIN, Team.BLUE, Team.NEUTRAL])
+
     }
 
     def 'createRandomGameBoard - no result from wordList Repo'() {
@@ -43,6 +45,7 @@ class GameBoardServiceSpec extends Specification implements GameSpec {
 
         then:
         1 * mockWordListService.getRandomWordList() >> null
+        1 * mockGameBoardRepository.save(_ as GameBoards) >> {GameBoards gb -> return gb}
         0 * _
 
         and:

@@ -27,13 +27,15 @@ public class GameBoardServiceImpl implements GameBoardService {
     public GameBoards createRandomGameBoard() {
         GameBoards gameBoard = new GameBoards();
         WordList wordList = wordListService.getRandomWordList();
-        if (wordList != null) {
-            gameBoard.setWordList(wordList);
-            gameBoard.setGameRows(createGameRows());
-            gameBoard.assignTeams();
-            gameBoard = gameBoardRepository.save(gameBoard);
-        }
-        return gameBoard;
+        gameBoard = setupGameBoard(wordList, gameBoard);
+        return gameBoardRepository.save(gameBoard);
+    }
+
+    private GameBoards setupGameBoard(WordList wordList, GameBoards gameBoards){
+        gameBoards.setWordList(wordList);
+        gameBoards.setGameRows(createGameRows());
+        gameBoards.assignTeams();
+        return gameBoards;
     }
 
     @Override

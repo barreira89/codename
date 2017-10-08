@@ -53,7 +53,7 @@ trait GameSpec {
 	def wordListOf25(){
 		def array = new ArrayList<String>()
 		25.times{
-			array << "TEST"
+			array << "TEST_" + it
 		}
 
 		return array
