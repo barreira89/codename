@@ -45,11 +45,11 @@ class GameBoardServiceSpec extends Specification implements GameSpec {
 
         then:
         1 * mockWordListService.getRandomWordList() >> null
-        1 * mockGameBoardRepository.save(_ as GameBoards) >> {GameBoards gb -> return gb}
+        //1 * mockGameBoardRepository.save(_ as GameBoards) >> {GameBoards gb -> return gb}
         0 * _
 
         and:
-        gameBoardResult
+        thrown(RuntimeException)
 
     }
 

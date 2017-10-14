@@ -47,11 +47,6 @@ public class GameBoards {
 	public void assignTeams() {
 		for(int i = 0; i < gameRows.size(); i++){
 			for(int x = 0; x < gameRows.get(i).getRowTiles().size(); x ++ ){
-//				GameTile currentTile = gameRows.get(i).getRowTiles().get(x);
-//				currentTile.setTeam(teamList.getRandomTeam());
-//				currentTile.setRowIndex(i);
-//				currentTile.setColIndex(x);
-//				currentTile.setWord(wordList.getRandomWord());
 				gameRows.get(i).getRowTiles().get(x).setTeam(teamList.getRandomTeam());
 				gameRows.get(i).getRowTiles().get(x).setRowIndex(i);
 				gameRows.get(i).getRowTiles().get(x).setColIndex(x);

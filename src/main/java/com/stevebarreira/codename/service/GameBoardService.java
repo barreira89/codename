@@ -6,12 +6,12 @@ import java.util.List;
 
 public interface GameBoardService {
 	
-	public GameBoards createRandomGameBoard();
+	GameBoards createRandomGameBoard() throws RuntimeException;
 	
-	public List<GameBoards> getAllGameBoards();
+	List<GameBoards> getAllGameBoards();
 	
-	public GameBoards getGameBoardById(String id);
+	GameBoards getGameBoardById(String id);
 	
-	public GameBoards updateGameBoard(GameBoards gameBoard);
+	GameBoards updateGameBoard(GameBoards gameBoard);
 
 }

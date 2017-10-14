@@ -11,7 +11,7 @@ import spock.lang.Specification
 import static org.springframework.http.MediaType.APPLICATION_JSON
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 
-class GameControllerSpec extends Specification {
+class GameControllerSpec extends Specification implements ControllerTrait {
 
     GameService mockGameService = Mock()
 
@@ -19,7 +19,10 @@ class GameControllerSpec extends Specification {
             gamesService: mockGameService
     )
     ObjectMapper objectMapper = new ObjectMapper()
-    MockMvc mockMvc = MockMvcBuilders.standaloneSetup(gameController).build()
+    MockMvc mockMvc = MockMvcBuilders
+            .standaloneSetup(gameController)
+            .setHandlerExceptionResolvers(exceptionResolver)
+            .build()
 
     def 'POST - Games - Create Games'() {
         setup:

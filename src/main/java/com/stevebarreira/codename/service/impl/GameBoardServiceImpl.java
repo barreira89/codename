@@ -24,18 +24,23 @@ public class GameBoardServiceImpl implements GameBoardService {
     private WordListService wordListService;
 
     @Override
-    public GameBoards createRandomGameBoard() {
-        GameBoards gameBoard = new GameBoards();
+    public GameBoards createRandomGameBoard() throws RuntimeException {
+        GameBoards gameBoard;
         WordList wordList = wordListService.getRandomWordList();
-        gameBoard = setupGameBoard(wordList, gameBoard);
+        if(wordList != null){
+            gameBoard = setupGameBoard(wordList);
+        } else {
+            throw new RuntimeException("No WordList Available, Default Failure");
+        }
         return gameBoardRepository.save(gameBoard);
     }
 
-    private GameBoards setupGameBoard(WordList wordList, GameBoards gameBoards){
-        gameBoards.setWordList(wordList);
-        gameBoards.setGameRows(createGameRows());
-        gameBoards.assignTeams();
-        return gameBoards;
+    private GameBoards setupGameBoard(WordList wordList){
+        GameBoards gameBoard = new GameBoards();
+        gameBoard.setWordList(wordList);
+        gameBoard.setGameRows(createGameRows());
+        gameBoard.assignTeams();
+        return gameBoard;
     }
 
     @Override
