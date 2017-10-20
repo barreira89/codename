@@ -18,11 +18,8 @@ class GameControllerSpec extends Specification implements ControllerTrait {
     GameController gameController = new GameController(
             gamesService: mockGameService
     )
-    ObjectMapper objectMapper = new ObjectMapper()
-    MockMvc mockMvc = MockMvcBuilders
-            .standaloneSetup(gameController)
-            .setHandlerExceptionResolvers(exceptionResolver)
-            .build()
+
+    MockMvc mockMvc = getDefaultMockMvc(gameController)
 
     def 'POST - Games - Create Games'() {
         setup:
