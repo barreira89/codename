@@ -7,7 +7,7 @@
 			<button class="btn btn-primary col-xs-6" ng-click="updateGameBoard(gameboard.id, gameboard)"> Update</button>
 			<button class="btn btn-primary col-xs-6" ng-click="getNewRound()"> New Round</button>
 			<button class="btn btn-primary col-xs-6" ng-click="refreshGameBoard(gameboard.id, game.id, selectedRoundNumber)">Refresh</button>
-			<button class="btn btn-primary col-xs-6" ui-sref="{{gameOrCodeMaster}}({gameId: game.id, currentRound: selectedRoundNumber})"> Codemaster </button>
+			<button class="btn btn-primary col-xs-6" ui-sref="{{codemaster ? 'gameroom' : 'codemaster'}}({gameId: game.id, currentRound: selectedRoundNumber})"> {{codemaster ? 'Game Room' : 'Code Master'}} </button>
 		</div>
 	</div>
 </div>

@@ -24,15 +24,15 @@ app.directive('gameControls', [ 'scoreboard', 'gameboard', function(scoreboard, 
 			}
 			scope.updateGameBoard = function (gameBoardId, gameBoard){
 				gameboard.updateGameBoard(gameBoardId, gameBoard)
-					.success((gameBoard) => {
+					.then((gameBoard) => {
 						scope.gameboard = gameBoard
 					})
-					.error((err) => {
+					.catch((err) => {
 						console.log(err)
 					})
 			}
-			$scope.gameOrCodeMaster = (function() {
-				return (codemaster) ? "codemaster" : "gameroom"
+			scope.gameOrCodeMaster = (function() {
+				return (scope.codemaster) ? "codemaster" : "gameroom"
 			})()
 		},
 		templateUrl : '/javascripts/directives/gameControls.html'
