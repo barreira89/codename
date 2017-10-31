@@ -5,9 +5,10 @@
 	<div class="form-group panel-body gamecontrols">
 		<div>
 			<button class="btn btn-primary col-xs-6" ng-click="updateGameBoard(currentGameBoard.id, currentGameBoard)"> Update</button>
-			<button class="btn btn-primary col-xs-6" ng-click="getNewRound()"> New Round</button>
+			<button class="btn btn-primary col-xs-6" ng-click="getNewRound(game.id)"> New Round</button>
 			<button class="btn btn-primary col-xs-6" ng-click="refreshGameBoard(currentGameBoard.id, game.id, selectedRoundNumber)">Refresh</button>
-			<button class="btn btn-primary col-xs-6" ui-sref="{{codemaster ? 'gameroom' : 'codemaster'}}({gameId: game.id, currentRound: selectedRoundNumber})"> {{codemaster ? 'Game Room' : 'Code Master'}} </button>
+			<button ng-show="codemaster" ng-click="!codemaster" class="btn btn-primary col-xs-6" ui-sref="gameroom({gameId: game.id, currentRound: selectedRoundNumber})"> Game Room </button>
+			<button ng-show="!codemaster" ng-click="!codemaster" class="btn btn-primary col-xs-6" ui-sref="codemaster({gameId: game.id, currentRound: selectedRoundNumber})"> Code Master </button>
 		</div>
 	</div>
 </div>

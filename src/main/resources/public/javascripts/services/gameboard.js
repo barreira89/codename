@@ -32,7 +32,8 @@ app.factory('gameboard', ['$http', '$q', 'games', function($http, $q, games) {
     		url: '/api/games/' + gameId + '/rounds'
     	})
     }
-    
+
+
     gameservices.getNewRound = function(gameId) {
     	var deferred = $q.defer();
     	gameservices.newGameBoardForGame(gameId)

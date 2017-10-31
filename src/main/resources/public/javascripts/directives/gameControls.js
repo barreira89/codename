@@ -2,9 +2,6 @@ app.directive('gameControls', [ 'scoreboard', 'gameboard', function(scoreboard, 
 	return {
 		restrict : 'E',
 		scope : {
-			updateGameBoardC : '=update',
-			refreshGameBoardC : '=refresh',
-			getNewRound: '=newround',
 			game: '=',
 			currentGameBoard: '=currentboard',
 			selectedRoundNumber: '=roundnumber',
@@ -30,10 +27,15 @@ app.directive('gameControls', [ 'scoreboard', 'gameboard', function(scoreboard, 
 						console.log(err)
 					})
 			}
-			scope.gameOrCodeMaster = (function() {
-			    console.log(scope.gameroom)
-				return (scope.codemaster) ? "codemaster" : "gameroom"
-			})()
+			scope.getNewRound = function(gameId){
+			    gameboard.getNewRound(gameId)
+			        .then((updatedGame)=>{
+			            scope.game = updatedGame;
+			        })
+			        .catch((err)=>{
+			            console.error(err)
+			        })
+			}
 		},
 		templateUrl : '/javascripts/directives/gameControls.html'
 	}
