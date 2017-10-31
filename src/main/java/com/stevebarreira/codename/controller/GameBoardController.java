@@ -23,7 +23,7 @@ public class GameBoardController {
     private GameBoardService gameBoardService;
 
     @RequestMapping(method = RequestMethod.GET, value = "/gameboards", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<GameBoards> getRandomGameBoard() {
+    public List<GameBoards> getAllGameBoards() {
         return gameBoardService.getAllGameBoards();
     }
 
@@ -38,7 +38,7 @@ public class GameBoardController {
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "/gameboards/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public GameBoards getRandomGameBoard(@RequestBody GameBoards gameBoard) {
+    public GameBoards updateGameBoardById(@RequestBody GameBoards gameBoard) {
         return gameBoardService.updateGameBoard(gameBoard);
     }
 

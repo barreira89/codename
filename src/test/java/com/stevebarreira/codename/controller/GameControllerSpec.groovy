@@ -20,13 +20,15 @@ class GameControllerSpec extends Specification implements ControllerTrait {
     )
 
     MockMvc mockMvc = getDefaultMockMvc(gameController)
+    static String apiBase = "/api/games"
 
     def 'POST - Games - Create Games'() {
         setup:
         Games gameToReturn = new Games()
 
         when:
-        def response = mockMvc.perform(post("/api/games")
+        def response = mockMvc.perform(
+                post(apiBase)
                 .contentType(APPLICATION_JSON)
         ).andReturn().response
         Games gameResponse = objectMapper.readValue(response.contentAsString, Games.class)
@@ -39,6 +41,8 @@ class GameControllerSpec extends Specification implements ControllerTrait {
         gameResponse
 
     }
+
+
 
 
 }

@@ -18,14 +18,15 @@ class GameBoardControllerSpec extends Specification implements ControllerTrait {
     )
     MockMvc mockMvc = getDefaultMockMvc(gameBoardController)
 
-    String apiBase = "/api/gameboards"
+    static String apiBase = "/api/gameboards"
 
     def 'POST - GameBoards - Create Game Board'() {
         setup:
         GameBoards gameBoards = new GameBoards()
 
         when:
-        def response = mockMvc.perform(post(apiBase)
+        def response = mockMvc.perform(
+                post(apiBase)
                 .contentType(APPLICATION_JSON)
         ).andReturn().response
         GameBoards gameBoardResponse = objectMapper.readValue(response.contentAsString, GameBoards.class)
@@ -40,10 +41,10 @@ class GameBoardControllerSpec extends Specification implements ControllerTrait {
 
     }
 
-
     def 'POST - GameBoards - Create Game Board - Exception'() {
         when:
-        def response = mockMvc.perform(post(apiBase)
+        def response = mockMvc.perform(
+                post(apiBase)
                 .contentType(APPLICATION_JSON)
         ).andReturn().response
 
@@ -72,6 +73,10 @@ class GameBoardControllerSpec extends Specification implements ControllerTrait {
         and:
         gameBoardsResponse
         gameBoardsResponse.id == gameBoardId
+    }
+
+    def 'GET - GameBoards - Get All GameBoards'(){
+
     }
 
 }

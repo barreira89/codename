@@ -6,14 +6,13 @@ app.directive('gameControls', [ 'scoreboard', 'gameboard', function(scoreboard, 
 			refreshGameBoardC : '=refresh',
 			getNewRound: '=newround',
 			game: '=',
-			gameboard: '=',
+			currentGameBoard: '=currentboard',
 			selectedRoundNumber: '=roundnumber',
 			codemaster: '='
 		},
 		link : function(scope, elm, attr) {
-			console.log(scope)
-			scope.refreshGameBoard = function (gameBoardId, gameId, roundNumber){
-				gameboard.refreshGameboard(gameBoardId, gameId, roundNumber)
+			scope.refreshGameBoard = function (gameBoardId, gameId, roundnumber){
+				gameboard.refreshGameboard(gameBoardId, gameId, roundnumber)
 					.then((gameBoardResponse) => {
 						scope.gameboard = gameBoardResponse.gameBoard
 						scope.clueListServer = gameBoardResponse.clueList
@@ -32,6 +31,7 @@ app.directive('gameControls', [ 'scoreboard', 'gameboard', function(scoreboard, 
 					})
 			}
 			scope.gameOrCodeMaster = (function() {
+			    console.log(scope.gameroom)
 				return (scope.codemaster) ? "codemaster" : "gameroom"
 			})()
 		},
