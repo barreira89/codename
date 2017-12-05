@@ -6,20 +6,20 @@ app.constant('USER_ROLES',{
 });
 app.config(['$stateProvider', '$urlRouterProvider', 'USER_ROLES', function($stateProvider, $urlRouterProvider, USER_ROLES){
   $stateProvider
-	.state('codemaster', {
-		  url: '/gameroom/:gameId/codemaster',
-		  controller: 'GameRoomController',
-		  templateUrl: '/views/codemaster.html',
-		  params:{
-			  currentRound:	null
-		  },
-		  data: {authorizedRoles: [USER_ROLES.all]},
-		  resolve: {
-		  	currentGame: ['$stateParams', 'games', function($stateParams, games) {
-		  		return games.getGameById($stateParams.gameId)
-		  		}],
-		  	currentRound:['$stateParams', function($stateParams){return $stateParams.currentRound}]
-		  }
+   .state('codemaster', {
+      url: '/gameroom/:gameId/codemaster',
+      controller: 'GameRoomController',
+      templateUrl: '/views/codemaster.html',
+      params:{
+          currentRound:	null
+      },
+      data: {authorizedRoles: [USER_ROLES.all]},
+      resolve: {
+        currentGame: ['$stateParams', 'games', function($stateParams, games) {
+            return games.getGameById($stateParams.gameId)
+            }],
+        currentRound:['$stateParams', function($stateParams){return $stateParams.currentRound}]
+      }
 	})
    .state('gameroom', {
       url: '/gameroom/:gameId',
@@ -33,7 +33,7 @@ app.config(['$stateProvider', '$urlRouterProvider', 'USER_ROLES', function($stat
       	currentGame: ['$stateParams', 'games', function($stateParams, games) {
       		return games.getGameById($stateParams.gameId)
       		}],
-      		currentRound:['$stateParams', function($stateParams){return $stateParams.currentRound}]
+      	currentRound:['$stateParams', function($stateParams){return $stateParams.currentRound}]
       }
     })
   	.state('login', {

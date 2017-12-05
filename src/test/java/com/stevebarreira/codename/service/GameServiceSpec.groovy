@@ -131,8 +131,23 @@ class GameServiceSpec extends Specification implements GameSpec {
         where:
         scenario     | gameId | roundNumber | gameClue                                                  || clueListSize
         'Happy Path' | '1'    | 1           | new GameClue(clue: "TEST", numberOfWords: 8, team: "RED") || 3
-        'Null Clue'  | '1'    | 1           | null                                                      || 2
         'No Round'   | '1'    | 45          | new GameClue(clue: "TEST", numberOfWords: 5, team: "RED") || 2
+
+    }
+
+    def 'addClueToGameRound - null clue'() {
+        when:
+        Games resultGame = gameService.addClueToGameRound(gameId, roundNumber, gameClue)
+
+        then:
+        0 * _
+
+        and:
+        !resultGame
+
+        where:
+        gameId | roundNumber | gameClue || clueListSize
+        '1'    | 1           | null     || 2
 
     }
 
