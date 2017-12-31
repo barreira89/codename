@@ -27,7 +27,10 @@ class WordListServiceSpec extends Specification {
         WordList resultWordList = wordListService.getRandomWordList()
 
         then:
-        1 * mockWordListRepository.findAll() >> [new Codenames(words: wordListOfSize(listSizeInput))]
+        1 * mockWordListRepository.findAll() >> [new Codenames(words: wordListOfSize(listSizeInput)),
+                                                 new Codenames(words: wordListOfSize(listSizeInput + 3))
+        ]
+        0 * _
 
         and:
         resultWordList

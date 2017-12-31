@@ -38,7 +38,8 @@ public class WordListServiceImpl implements WordListService {
 		List<Codenames> wordList = wordListRepository.findAll();
 		
 		if(CollectionUtils.isNotEmpty(wordList)){
-			codeNameList = wordList.get(0);
+			int codeNameListIndex = randomValueFromWordList(wordList);
+			codeNameList = wordList.get(codeNameListIndex);
 		} else {
 			LOGGER.info("Repository Unavaible | Using Default Codewords List");
 			codeNameList = getDefaultCodeNames();
@@ -50,6 +51,10 @@ public class WordListServiceImpl implements WordListService {
 		Codenames codeNameList = new Codenames();
 		codeNameList.setWords(new WordList().createWordMap());
 		return codeNameList;
+	}
+
+	private int randomValueFromWordList(List wordList){
+		return generator.nextInt(wordList.size());
 	}
 
 	private List<String> randomizedWordList(List<String> inputList, Integer sizeOfOutput) {

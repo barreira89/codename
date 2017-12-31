@@ -6,6 +6,8 @@ import com.stevebarreira.codename.model.Games;
 import com.stevebarreira.codename.repository.GamesRepository;
 import com.stevebarreira.codename.service.GameBoardService;
 import com.stevebarreira.codename.service.GameService;
+import org.apache.log4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +18,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class GameServiceImpl implements GameService {
+
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(GameServiceImpl.class);
 
     @Autowired
     GamesRepository gameRepository;

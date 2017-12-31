@@ -7,6 +7,8 @@ import com.stevebarreira.codename.model.WordList;
 import com.stevebarreira.codename.repository.GameBoardRepository;
 import com.stevebarreira.codename.service.GameBoardService;
 import com.stevebarreira.codename.service.WordListService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,8 @@ import java.util.stream.IntStream;
 
 @Service
 public class GameBoardServiceImpl implements GameBoardService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(GameBoardServiceImpl.class);
 
     @Autowired
     private GameBoardRepository gameBoardRepository;
