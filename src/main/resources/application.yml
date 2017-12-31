@@ -9,3 +9,14 @@ server:
     port: 8080
 logging:
     path: "/opt/log"
+
+---
+spring:
+    profiles: docker
+    data:
+        mongodb:
+            host: 172.17.0.1
+            port: 27018
+            dbname: test
+server:
+    port: 8080
