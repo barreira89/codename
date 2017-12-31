@@ -27,7 +27,7 @@ class GameBoardControllerSpec extends Specification implements ControllerTrait {
         when:
         def response = mockMvc.perform(
                 post(apiBase)
-                .contentType(APPLICATION_JSON)
+                        .contentType(APPLICATION_JSON)
         ).andReturn().response
         GameBoards gameBoardResponse = objectMapper.readValue(response.contentAsString, GameBoards.class)
 
@@ -45,7 +45,7 @@ class GameBoardControllerSpec extends Specification implements ControllerTrait {
         when:
         def response = mockMvc.perform(
                 post(apiBase)
-                .contentType(APPLICATION_JSON)
+                        .contentType(APPLICATION_JSON)
         ).andReturn().response
 
         then:
@@ -58,7 +58,7 @@ class GameBoardControllerSpec extends Specification implements ControllerTrait {
 
     }
 
-    def 'GET - GameBoards - Get Game Board by ID'(){
+    def 'GET - GameBoards - Get Game Board by ID'() {
         setup:
         String gameBoardId = "123"
 
@@ -75,7 +75,7 @@ class GameBoardControllerSpec extends Specification implements ControllerTrait {
         gameBoardsResponse.id == gameBoardId
     }
 
-    def 'GET - GameBoards - Get All GameBoards'(){
+    def 'GET - GameBoards - Get All GameBoards'() {
 
     }
 

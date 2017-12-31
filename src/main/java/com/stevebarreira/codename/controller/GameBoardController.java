@@ -3,7 +3,6 @@ package com.stevebarreira.codename.controller;
 import com.stevebarreira.codename.model.GameBoards;
 import com.stevebarreira.codename.model.WordList;
 import com.stevebarreira.codename.service.GameBoardService;
-import com.stevebarreira.codename.service.GameService;
 import com.stevebarreira.codename.service.WordListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -17,8 +16,7 @@ public class GameBoardController {
 
     @Autowired
     private WordListService wordListService;
-    @Autowired
-    private GameService gamesService;
+
     @Autowired
     private GameBoardService gameBoardService;
 
