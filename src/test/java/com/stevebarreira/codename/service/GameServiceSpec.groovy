@@ -143,7 +143,7 @@ class GameServiceSpec extends Specification implements GameSpec {
         0 * _
 
         and:
-        !resultGame
+        thrown(IllegalArgumentException)
 
         where:
         gameId | roundNumber | gameClue || clueListSize

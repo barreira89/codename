@@ -1,15 +1,21 @@
+server:
+    port: 8080
+
+---
+spring:
+    profiles: prod
+logging:
+    path: "/opt/log"
+    level: INFO
+
+---
 spring:
     profiles: digital
     data:
         mongodb:
             host: 138.197.24.195
             port: 27017
-            dbname: test               
-server:
-    port: 8080
-logging:
-    path: "/opt/log"
-
+            dbname: test
 ---
 spring:
     profiles: docker
@@ -18,5 +24,3 @@ spring:
             host: 172.17.0.1
             port: 27018
             dbname: test
-server:
-    port: 8080
