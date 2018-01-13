@@ -2,18 +2,14 @@ app.directive('gameControls', [ 'scoreboard', 'gameboard', function(scoreboard, 
 	return {
 		restrict : 'E',
 		scope : {
-			updateGameBoardC : '=update',
-			refreshGameBoardC : '=refresh',
-			getNewRound: '=newround',
 			game: '=',
-			gameboard: '=',
+			currentGameBoard: '=currentboard',
 			selectedRoundNumber: '=roundnumber',
 			codemaster: '='
 		},
 		link : function(scope, elm, attr) {
-			console.log(scope)
-			scope.refreshGameBoard = function (gameBoardId, gameId, roundNumber){
-				gameboard.refreshGameboard(gameBoardId, gameId, roundNumber)
+			scope.refreshGameBoard = function (gameBoardId, gameId, roundnumber){
+				gameboard.refreshGameboard(gameBoardId, gameId, roundnumber)
 					.then((gameBoardResponse) => {
 						scope.gameboard = gameBoardResponse.gameBoard
 						scope.clueListServer = gameBoardResponse.clueList
@@ -24,16 +20,22 @@ app.directive('gameControls', [ 'scoreboard', 'gameboard', function(scoreboard, 
 			}
 			scope.updateGameBoard = function (gameBoardId, gameBoard){
 				gameboard.updateGameBoard(gameBoardId, gameBoard)
-					.success((gameBoard) => {
+					.then((gameBoard) => {
 						scope.gameboard = gameBoard
 					})
-					.error((err) => {
+					.catch((err) => {
 						console.log(err)
 					})
 			}
-			$scope.gameOrCodeMaster = (function() {
-				return (codemaster) ? "codemaster" : "gameroom"
-			})()
+			scope.getNewRound = function(gameId){
+			    gameboard.getNewRound(gameId)
+			        .then((updatedGame)=>{
+			            scope.game = updatedGame;
+			        })
+			        .catch((err)=>{
+			            console.error(err)
+			        })
+			}
 		},
 		templateUrl : '/javascripts/directives/gameControls.html'
 	}

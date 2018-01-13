@@ -20,7 +20,7 @@ public class GameController {
     private GameService gamesService;
 
     @Autowired
-    private SimpMessagingTemplate template;
+    private SimpMessagingTemplate messagingTemplate;
 
     @RequestMapping(method = RequestMethod.POST, value = "/games", produces = MediaType.APPLICATION_JSON_VALUE)
     public Games getNewGame() {
@@ -36,7 +36,7 @@ public class GameController {
     public Games addGameClueToGameRound(@PathVariable String id, @PathVariable Integer roundNumber, @RequestBody GameClue gameClue) {
         Games game = gamesService.addClueToGameRound(id, roundNumber, gameClue);
         if (game != null) {
-            template.convertAndSend("/topic/gamechange/" + id, gameClue);
+            messagingTemplate.convertAndSend("/topic/gamechange/" + id, gameClue);
         }
         return game;
     }

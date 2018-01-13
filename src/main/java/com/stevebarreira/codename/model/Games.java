@@ -1,5 +1,6 @@
 package com.stevebarreira.codename.model;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.joda.time.DateTime;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
@@ -7,6 +8,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
+import java.util.Optional;
 
 @Document
 public class Games {
@@ -33,6 +35,16 @@ public class Games {
 	}
 
 	public Games(){
+	}
+
+	public GameRound getRoundByRoundNumber(Integer roundNumber){
+		if(CollectionUtils.isNotEmpty(rounds)){
+			return rounds.stream()
+					.filter(gameRound -> gameRound.getRoundNumber() == roundNumber)
+					.findFirst().orElse(null);
+		} else {
+			return null;
+		}
 	}
 
 

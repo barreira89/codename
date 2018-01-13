@@ -7,25 +7,28 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import static com.stevebarreira.codename.application.AppConstants.LOGIN_URL;
+import static com.stevebarreira.codename.application.AppConstants.LOGOUT_URL;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-	@Override
+    @Override
     public void configure(WebSecurity web) throws Exception {
-    	web.ignoring()
-    		.antMatchers("/javascripts/**")
-    		.antMatchers("/css/**");
+        web.ignoring()
+                .antMatchers(AppConstants.JS_ANTPATTERN)
+                .antMatchers(AppConstants.CSS_ANTPATTERN);
     }
-    
+
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
-        	.csrf().disable()
-        	.authorizeRequests()
+                .csrf().disable()
+                .authorizeRequests()
                 .antMatchers("/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
-             .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login");;
+                .logout().logoutRequestMatcher(new AntPathRequestMatcher(LOGOUT_URL)).logoutSuccessUrl(LOGIN_URL);
     }
 }

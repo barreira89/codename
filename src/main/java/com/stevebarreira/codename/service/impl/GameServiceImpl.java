@@ -78,18 +78,18 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public Games addClueToGameRound(String id, Integer roundNumber, GameClue gameClue) {
-        Optional<GameClue> gameClueToAdd = Optional.ofNullable(gameClue);
+        if(gameClue == null){
+            throw new IllegalArgumentException("Game Clue Is Required");
+        }
+
         Optional<Games> game = Optional.ofNullable(gameRepository.findOne(id));
         game
-            .map(Games::getRounds)
-            .flatMap(gameRounds -> gameRounds.stream()
-                    .filter(gr -> gr.getRoundNumber() == roundNumber)
-                    .findFirst()
-            )
-            .ifPresent(foundGameRound -> gameClueToAdd.ifPresent(foundGameRound::addClue));
+                .map(g -> g.getRoundByRoundNumber(roundNumber))
+                .ifPresent(gr -> gr.addClue(gameClue));
+        //Find the round that matches the number
         game.ifPresent(gameRepository::save);
-        return game.orElse(null);
 
+        return game.orElse(null);
     }
 
     @Override

@@ -7,21 +7,20 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
-//Breakout into gameboard service
 public interface GameService {
 	
-	public Games createNewGame();
+	Games createNewGame();
 	
-	public Games getGameById(String id);
+	Games getGameById(String id);
 	
-	public Games newRoundForGame(String id);
+	Games newRoundForGame(String id);
 	
-	public Games addClueToGameRound(String id, Integer roundNumber, GameClue gameClue);
+	Games addClueToGameRound(String id, Integer roundNumber, GameClue gameClue);
 	
-	public List<GameClue> getCluesByGameAndRound(String id, Integer roundNumber);
+	List<GameClue> getCluesByGameAndRound(String id, Integer roundNumber);
 	
-	public Page<Games> getAllGames(Pageable pageable);
+	Page<Games> getAllGames(Pageable pageable);
 	
-	public Games updateGame(Games game);
+	Games updateGame(Games game);
 	
 }
