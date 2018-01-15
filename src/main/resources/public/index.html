@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html ng-app="Codenames">
+<html>
 <head><title>Codenames</title>
-  <script src="/javascripts/jquery-1.11.3.js"></script>
-  <!-- <script src="/javascripts/stomp.js"></script> -->
+  <!--<script src="/javascripts/jquery-1.11.3.js"></script>
+  <!-- <script src="/javascripts/stomp.js"></script>
   <script src="/javascripts/sockjs.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.js"></script>
   <script src="/javascripts/angular.js"></script>
@@ -32,12 +32,14 @@
   <script src="javascripts/directives/clueList.js"></script>
   <script src="javascripts/directives/gameControls.js"></script>
   <script src="javascripts/filters/percentage.js"></script>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
 </head>
 <body>
-<nav-bar></nav-bar>
 <div>
-  <div ui-view></div>
+  <div id="react"></div>
+
+  <script src="built/bundle.js"></script>
+
 </div>
 </body>
 </html>

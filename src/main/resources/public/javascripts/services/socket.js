@@ -22,14 +22,14 @@ app.factory('socket', [ '$http', function($http) {
 		method: 'GET',
 		url: '/',
 	}).then((data) => {
-		console.log(data);
 		host = data.data.ip;
 	})
 	
 	function connect(gameId) {
 		var sock = new SockJS("/ws/");
 		var stompClient = Stomp.over(sock);
-		
+
+		stompClient.debug = null;
 		stompClient.connect({}, function(frame){
 			
 			//Connect to Clue Topic
