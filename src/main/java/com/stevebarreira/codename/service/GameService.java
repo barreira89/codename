@@ -22,5 +22,6 @@ public interface GameService {
 	Page<Games> getAllGames(Pageable pageable);
 	
 	Games updateGame(Games game);
-	
+
+	void deleteGameById(String id);
 }

@@ -104,4 +104,9 @@ public class GameServiceImpl implements GameService {
                 .orElseGet(Collections::emptyList);
     }
 
+    //TODO add Unit Tests
+    public void deleteGameById(String id){
+        gameRepository.delete(id);
+    }
+
 }

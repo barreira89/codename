@@ -61,4 +61,10 @@ public class GameController {
         return gamesService.updateGame(game);
     }
 
+    @RequestMapping(method = RequestMethod.DELETE, value = "/games/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public void deleteGame(@PathVariable String id) {
+        gamesService.deleteGameById(id);
+    }
+
+
 }
