@@ -1,7 +1,7 @@
 import client from './client'
 
 
-const gameService = {
+export const gameService = {
     getGames: () => {
         return client({
              method: 'GET',
@@ -24,5 +24,3 @@ const gameService = {
         })
     }
 }
-
-module.exports = gameService

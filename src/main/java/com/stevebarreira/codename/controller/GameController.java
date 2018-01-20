@@ -6,7 +6,9 @@ import com.stevebarreira.codename.service.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
@@ -62,8 +64,9 @@ public class GameController {
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/games/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public void deleteGame(@PathVariable String id) {
+    public ResponseEntity deleteGame(@PathVariable String id) {
         gamesService.deleteGameById(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
     }
 
 

@@ -227,4 +227,16 @@ class GameServiceSpec extends Specification implements GameSpec {
         'Happy Path - Result'      | defaultGame
         'Happy Path - Null Result' | null
     }
+
+    def 'delelte game'() {
+        when:
+        String gameId = "id"
+        gameService.deleteGameById(gameId)
+
+        then:
+        1 * mockGameRepository.delete(_ as String)
+        0 * _
+
+    }
+    
 }

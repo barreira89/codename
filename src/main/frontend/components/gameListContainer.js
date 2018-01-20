@@ -1,8 +1,8 @@
 import React from 'react'
-import {GamesList} from './gameList.js'
-import gameService from '../api/gameService.js'
+import {GameList} from './gameList.js'
+import {gameService} from '../api/gameService.js'
 
-export class TestClass extends React.Component{
+export class GameListContainer extends React.Component{
     constructor(props) {
         super(props)
         this.state = {games:[]}
@@ -17,8 +17,8 @@ export class TestClass extends React.Component{
     }
 
     deleteGame(id) {
-        gameService.deleteGame(e).done(response => {
-            console.log(response)
+        gameService.deleteGame(id).done(response => {
+            console.log("DELTED GAME: " + id)
             this.updateGames()
         })
     }
@@ -41,15 +41,12 @@ export class TestClass extends React.Component{
     }
 
     render() {
-        return (<div>
-                <h1>Games</h1>
-                    <GamesList
-                        games={this.state.games}
-                        onClick={this.onClick}
-                        onClickDelete={this.onClickDelete}
-                     />
-                <button onClick={this.createGame} > Create Game </button>
-                </div>
+        return (
+                <GameList
+                    onClick={this.createGame}
+                    onClickDelete={this.onClickDelete}
+                    games={this.state.games}
+                />
         )
     }
 }
