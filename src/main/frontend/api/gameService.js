@@ -22,5 +22,11 @@ export const gameService = {
             method: 'DELETE',
             path: '/api/games/' + id
         })
+    },
+    getGameById: (id) => {
+        return client({
+            method: 'GET',
+            path: '/api/games/' + id
+        })
     }
 }

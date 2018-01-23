@@ -23,22 +23,23 @@ export class GameList extends React.Component{
     }
 
     render() {
-        const games = this.props.games.map((game,i) =>{
-            return (
+        const games = []
+        const gameDetails = []
+
+        this.props.games.forEach((game,i) =>{
+          games.push((
             <tr key={"GAME_" + i}>
                 <td> <a href={apiEndPoints.GAMES + game.id}> {game.id} </a> </td>
                 <td> <Link to={"/game/" + i}> {game.id} </Link></td>
                 <td> {game.status} </td>
                 <td> <button onClick={() => this.handleDelete(game.id)}> Delete </button> </td>
             </tr>
-            )
-        })
-        const gameDetails = this.props.games.map((game,i) => {
-            return (
-                <div key={"game_" + i}>
-                   <Game game={game}/>
-                </div>
-            )
+            ))
+          gameDetails.push((
+            <div key={"game_" + i}>
+                <Game game={game}/>
+            </div>
+          ))
         })
         return (
             <div>
@@ -56,7 +57,8 @@ export class GameList extends React.Component{
                 <div>
                     <button onClick={this.handleClick}> Create New Game </button>
                 </div>
-                <Route path='/game/:number' render={(props) => <Game game={this.props.games[props.match.params.number]} />} />
+                <Game game={this.props.games[0]} />
+               <Route path='/game/:number' render={(props) => <Game game={this.props.games[props.match.params.number]} />} />
             </div>
         )
     }
