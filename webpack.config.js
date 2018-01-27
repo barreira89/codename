@@ -6,7 +6,7 @@ module.exports = {
     filename: './src/main/resources/static/built/bundle.js',
     path: __dirname
   },
-   module: {
+  module: {
           loaders: [
               {
                   test: path.join(__dirname, '.'),

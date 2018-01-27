@@ -1,5 +1,6 @@
 import React from 'react'
 import {gameService} from '../api/gameService.js'
+import { GameBoard } from './gameBoard'
 
 
 export class Game extends React.Component {
@@ -8,8 +9,9 @@ export class Game extends React.Component {
         this.state = {game:{}}
     }
 
-    componentDidMount(){
-        let gameId = this.props.game && this.props.game.id || ''
+    componentDidMount() {
+        let gameId = this.props.game
+
         if(gameId){
             gameService.getGameById(gameId).done((resp) => {
                 this.setState({
@@ -22,12 +24,16 @@ export class Game extends React.Component {
     }
 
     render(){
+        console.log(this.state)
         let gameRounds = this.state.game.rounds
         let rounds = []
         if (gameRounds) {
             rounds = gameRounds.map((r, i) => {
                 return (
-                    <h4 key={"round_" + i}> Round Number: {r.roundNumber} </h4>
+                    <div>
+                        <h4 key={"round_" + i}> Round Number: {r.roundNumber} </h4>
+                        <GameBoard gameBoard={r.gameBoard} />
+                    </div>
                 )
             })
         }
@@ -35,6 +41,7 @@ export class Game extends React.Component {
         return (
             <div>
                 <h1> Game ID: {this.state.game.id} </h1>
+                {rounds}
             </div>
         )
     }

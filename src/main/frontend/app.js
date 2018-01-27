@@ -2,22 +2,23 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import client from './api/client.js'
 import gameService from './api/gameService.js'
-import {GameListContainer} from './components/gameListContainer.js'
-import {BrowserRouter} from 'react-router-dom'
+import { GameListContainer } from './components/gameListContainer.js'
+import { HashRouter } from 'react-router-dom'
+import { Main } from './components/main.js'
 
 class App extends React.Component{
     render () {
         return (
             <div>
-                <GameListContainer />
+                <Main />
             </div>
         )
     }
 }
 
 ReactDOM.render(
-    (<BrowserRouter>
+    (<HashRouter>
         <App />
-    </BrowserRouter>),
+    </HashRouter>),
     document.getElementById('react')
 )

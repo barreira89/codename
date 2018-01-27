@@ -29,8 +29,8 @@ export class GameList extends React.Component{
         this.props.games.forEach((game,i) =>{
           games.push((
             <tr key={"GAME_" + i}>
-                <td> <a href={apiEndPoints.GAMES + game.id}> {game.id} </a> </td>
-                <td> <Link to={"/game/" + i}> {game.id} </Link></td>
+                <td> The Link: </td>
+                <td> <Link to={"/game/" + game.id}> {game.id} </Link></td>
                 <td> {game.status} </td>
                 <td> <button onClick={() => this.handleDelete(game.id)}> Delete </button> </td>
             </tr>
@@ -57,8 +57,6 @@ export class GameList extends React.Component{
                 <div>
                     <button onClick={this.handleClick}> Create New Game </button>
                 </div>
-                <Game game={this.props.games[0]} />
-               <Route path='/game/:number' render={(props) => <Game game={this.props.games[props.match.params.number]} />} />
             </div>
         )
     }
