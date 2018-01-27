@@ -1,29 +1,17 @@
 import React from 'react'
+import { GameRow } from './gameRow'
+import { gameBoardStyles } from '../styles/gameBoardStyles'
 
-//TODO: Clean this up
 export const GameBoard = (props) => {
 
-    let rows = []
-    props.gameBoard.gameRows.map((row, i) => {
-        rows.push(
-                row.rowTiles.map((rowTile, x) => {
-                     return (<td key={'RT_'+i+'_'+x}> {rowTile.word} </td>)
-                })
-        )
-        //Game Row Component
-        //Game tile component
+    let rows = props.gameBoard.gameRows.map((row, i) => {
+             return <GameRow key={'GR_' + i + '_' + props.gameBoard.id} gameRow={row} />
     })
-    let wrappedRows = rows.map((r, i) => {
-        return (<tr key={"RO_" + i}>{r}</tr>)
-    })
-    console.log (rows)
     return (
         <div>
-        <h1> THE GAME BOARD IS HERE </h1>
+        <h3 style={gameBoardStyles.h1Style} className='testclass'> THE GAME BOARD IS HERE </h3>
            <table>
-               <tbody>
-                   {wrappedRows}
-               </tbody>
+               <tbody>{rows}</tbody>
            </table>
         </div>
 
