@@ -30,7 +30,7 @@ export class Game extends React.Component {
         if (gameRounds) {
             rounds = gameRounds.map((r, i) => {
                 return (
-                    <div>
+                    <div key={'round_div_' + i}>
                         <h4 key={"round_" + i}> Round Number: {r.roundNumber} </h4>
                         <GameBoard gameBoard={r.gameBoard} />
                     </div>
