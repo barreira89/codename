@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {Game} from './game.js'
 import {Link, Route} from 'react-router-dom'
+import { Button, Grid, Col, Row, Table } from 'react-bootstrap'
 
 const apiEndPoints = {
     GAMES: '/api/games/'
@@ -23,41 +24,34 @@ export class GameList extends React.Component{
     }
 
     render() {
-        const games = []
-        const gameDetails = []
-
-        this.props.games.forEach((game,i) =>{
-          games.push((
+        const games =  this.props.games.map((game,i) =>{
+          return (
             <tr key={"GAME_" + i}>
-                <td> The Link: </td>
                 <td> <Link to={"/game/" + game.id}> {game.id} </Link></td>
                 <td> {game.status} </td>
                 <td> <button onClick={() => this.handleDelete(game.id)}> Delete </button> </td>
             </tr>
-            ))
-          gameDetails.push((
-            <div key={"game_" + i}>
-                <Game game={game}/>
-            </div>
-          ))
-        })
+        )})
+
         return (
-            <div>
+            <Grid>
                 <h1> Games </h1>
-                <table>
-                    <tbody>
-                        <tr>
-                            <th> ID </th>
-                            <th> Create Time </th>
-                            <th></th>
-                        </tr>
-                            {games}
-                    </tbody>
-                </table>
+                    <Table>
+                        <thead>
+                            <tr>
+                                <th> ID </th>
+                                <th> Status </th>
+                                <th> Delete </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                                {games}
+                        </tbody>
+                    </Table>
                 <div>
-                    <button onClick={this.handleClick}> Create New Game </button>
+                    <Button onClick={this.handleClick}> Create New Game </Button>
                 </div>
-            </div>
+            </Grid>
         )
     }
 }
