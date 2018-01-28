@@ -1,7 +1,7 @@
 import React from 'react'
 import { GameTile } from './gameTile'
 
-export const GameRow = (props) => {
+export const GameBoardRow = (props) => {
     const gameRows = props.gameRow.rowTiles.map((rowTile, i) => {
         return (
             <GameTile key={'GT_' + i} gameTile={rowTile} />

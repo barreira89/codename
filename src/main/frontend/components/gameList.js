@@ -4,10 +4,6 @@ import {Game} from './game.js'
 import {Link, Route} from 'react-router-dom'
 import { Button, Grid, Col, Row, Table } from 'react-bootstrap'
 
-const apiEndPoints = {
-    GAMES: '/api/games/'
-}
-
 export class GameList extends React.Component{
     constructor(props) {
         super(props)

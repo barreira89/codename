@@ -47,7 +47,6 @@ public class Games {
 		}
 	}
 
-
 	public DateTime getCreatedDate() {
 		return createdDate;
 	}

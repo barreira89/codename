@@ -1,11 +1,10 @@
 import React from 'react'
-import { GameRow } from './gameRow'
+import { GameBoardRow } from './gameBoardRow'
 import { gameBoardStyles } from '../styles/gameBoardStyles'
 
 export const GameBoard = (props) => {
-
     let rows = props.gameBoard.gameRows.map((row, i) => {
-             return <GameRow key={'GR_' + i + '_' + props.gameBoard.id} gameRow={row} />
+             return <GameBoardRow key={'GR_' + i + '_' + props.gameBoard.id} gameRow={row} />
     })
     return (
         <div>
