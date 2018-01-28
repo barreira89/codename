@@ -4,8 +4,10 @@ import com.stevebarreira.codename.model.GameBoards
 import com.stevebarreira.codename.model.GameClue
 import com.stevebarreira.codename.model.GameRound
 import com.stevebarreira.codename.model.Games
+import com.stevebarreira.codename.model.transformer.impl.GamesTransformer
 import com.stevebarreira.codename.repository.GamesRepository
 import com.stevebarreira.codename.service.impl.GameServiceImpl
+import org.springframework.boot.context.config.ResourceNotFoundException
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable
@@ -17,10 +19,12 @@ class GameServiceSpec extends Specification implements GameSpec {
 
     GamesRepository mockGameRepository = Mock()
     GameBoardService mockGameBoardService = Mock()
+    GamesTransformer transformer = new GamesTransformer()
 
     GameService gameService = new GameServiceImpl(
             gameRepository: mockGameRepository,
-            gameBoardService: mockGameBoardService
+            gameBoardService: mockGameBoardService,
+            gamesTransformer: transformer
     )
 
     def 'getCluesByGameAndRound - #secenario'() {
@@ -207,7 +211,23 @@ class GameServiceSpec extends Specification implements GameSpec {
         where:
         scenario                   | resultFromRepo | expectedResult
         'Happy Path - Result'      | defaultGame    | defaultGame
-        'Happy Path - Null Result' | null           | null
+    }
+
+    def 'getGameById - not Found'() {
+        when:
+        String gameId = "id"
+        Games resultGame = gameService.getGameById(gameId)
+
+        then:
+        1 * mockGameRepository.findOne(_ as String) >> resultFromRepo
+        0 * _
+
+        and:
+        thrown(EntityNotFoundException)
+
+        where:
+        scenario                   | resultFromRepo
+        'Happy Path - Null Result' | null
     }
 
     def 'updateGame - #scenario'() {

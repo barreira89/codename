@@ -5,10 +5,12 @@ import com.stevebarreira.codename.model.GameRound;
 import com.stevebarreira.codename.model.Games;
 import com.stevebarreira.codename.model.dto.GamesDto;
 import com.stevebarreira.codename.model.transformer.Transformer;
+import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Service
 public class GamesTransformer implements Transformer<Games, GamesDto>{
     @Override
     public GamesDto transform(Games input) {

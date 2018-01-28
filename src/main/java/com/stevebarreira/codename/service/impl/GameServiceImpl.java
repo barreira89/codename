@@ -3,15 +3,21 @@ package com.stevebarreira.codename.service.impl;
 import com.stevebarreira.codename.model.GameClue;
 import com.stevebarreira.codename.model.GameRound;
 import com.stevebarreira.codename.model.Games;
+import com.stevebarreira.codename.model.dto.GamesDto;
+import com.stevebarreira.codename.model.transformer.impl.GamesTransformer;
 import com.stevebarreira.codename.repository.GamesRepository;
+import com.stevebarreira.codename.service.EntityNotFoundException;
 import com.stevebarreira.codename.service.GameBoardService;
 import com.stevebarreira.codename.service.GameService;
 import org.apache.log4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.config.ResourceNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -26,6 +32,9 @@ public class GameServiceImpl implements GameService {
 
     @Autowired
     GameBoardService gameBoardService;
+
+    @Autowired
+    GamesTransformer gamesTransformer;
 
     private GameRound createNewGameRound(int roundNumber) {
         GameRound gameRound = new GameRound();
@@ -46,7 +55,14 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public Games getGameById(String id) {
-        return gameRepository.findOne(id);
+        Optional<Games> gameResult = Optional.ofNullable(gameRepository.findOne(id));
+        return gameResult.orElseThrow(() -> new EntityNotFoundException("NOT FOUND"));
+    }
+
+    @Override
+    public GamesDto getGameDtoById(String id) {
+        Optional<Games> gameResult = Optional.ofNullable(gameRepository.findOne(id));
+        return gamesTransformer.transform(gameResult.orElseThrow( ()-> new EntityNotFoundException("NOT FOUND")));
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.stevebarreira.codename.controller;
 
 import com.stevebarreira.codename.model.GameClue;
 import com.stevebarreira.codename.model.Games;
+import com.stevebarreira.codename.model.dto.GamesDto;
 import com.stevebarreira.codename.service.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -69,5 +70,9 @@ public class GameController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
     }
 
+    @GetMapping(value = "/gamesdto/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public GamesDto getGameDtoById(@PathVariable String id) {
+        return gamesService.getGameDtoById(id);
+    }
 
 }

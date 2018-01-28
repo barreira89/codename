@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Document
-public class Games {
+public class Games implements Cloneable {
 	
 	private static final String DEFAULT_STATUS = "ACTIVE";
 	

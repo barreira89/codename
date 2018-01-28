@@ -2,6 +2,7 @@ package com.stevebarreira.codename.service;
 
 import com.stevebarreira.codename.model.GameClue;
 import com.stevebarreira.codename.model.Games;
+import com.stevebarreira.codename.model.dto.GamesDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -12,6 +13,8 @@ public interface GameService {
 	Games createNewGame();
 	
 	Games getGameById(String id);
+
+	GamesDto getGameDtoById(String id);
 	
 	Games newRoundForGame(String id);
 	

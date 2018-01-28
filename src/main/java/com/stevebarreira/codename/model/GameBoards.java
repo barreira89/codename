@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.IntStream;
 
-public class GameBoards {
+public class GameBoards implements Cloneable {
 	
 	@Id
 	private String id;
@@ -56,18 +56,10 @@ public class GameBoards {
 		this.leadTeam = teamList.getLeadTeam();
 	}
 
-//	public void assignTeamsNew(){
-//		IntStream.rangeClosed(1, gameRows.size())
-//				.forEach(i -> {
-//					IntStream.rangeClosed(1, gameRows.get(i).getRowTiles().size())
-//							.forEach();
-//
-//				});
-//	}
-	
 	public WordList getWordList() {
 		return wordList;
 	}
+
 	public void setWordList(WordList wordList) {
 		this.wordList = wordList;
 	}
