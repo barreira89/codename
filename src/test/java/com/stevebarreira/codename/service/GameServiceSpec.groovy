@@ -5,6 +5,8 @@ import com.stevebarreira.codename.model.GameClue
 import com.stevebarreira.codename.model.GameRound
 import com.stevebarreira.codename.model.Games
 import com.stevebarreira.codename.model.transformer.impl.GamesTransformer
+import com.stevebarreira.codename.model.validator.Validator
+import com.stevebarreira.codename.model.validator.impl.ClueValidator
 import com.stevebarreira.codename.repository.GamesRepository
 import com.stevebarreira.codename.service.impl.GameServiceImpl
 import org.springframework.boot.context.config.ResourceNotFoundException
@@ -19,12 +21,14 @@ class GameServiceSpec extends Specification implements GameSpec {
 
     GamesRepository mockGameRepository = Mock()
     GameBoardService mockGameBoardService = Mock()
+    Validator<GameClue> mockClueValidator = Mock()
     GamesTransformer transformer = new GamesTransformer()
 
     GameService gameService = new GameServiceImpl(
             gameRepository: mockGameRepository,
             gameBoardService: mockGameBoardService,
-            gamesTransformer: transformer
+            gamesTransformer: transformer,
+            clueValidator: mockClueValidator
     )
 
     def 'getCluesByGameAndRound - #secenario'() {
@@ -125,6 +129,7 @@ class GameServiceSpec extends Specification implements GameSpec {
         then:
         1 * mockGameRepository.findOne(_ as String) >> defaultGame
         1 * mockGameRepository.save(_ as Games) >> defaultGame
+        1 * mockClueValidator.isValid(_ as GameClue) >> true
         0 * _
 
         and:
@@ -162,6 +167,7 @@ class GameServiceSpec extends Specification implements GameSpec {
 
         then:
         1 * mockGameRepository.findOne(_ as String) >> gameFromRepo
+        1 * mockClueValidator.isValid(_ as GameClue) >> true
         0 * _
 
         and:

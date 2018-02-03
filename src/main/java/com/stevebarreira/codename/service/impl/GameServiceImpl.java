@@ -5,6 +5,8 @@ import com.stevebarreira.codename.model.GameRound;
 import com.stevebarreira.codename.model.Games;
 import com.stevebarreira.codename.model.dto.GamesDto;
 import com.stevebarreira.codename.model.transformer.impl.GamesTransformer;
+import com.stevebarreira.codename.model.validator.Validator;
+import com.stevebarreira.codename.model.validator.impl.ClueValidator;
 import com.stevebarreira.codename.repository.GamesRepository;
 import com.stevebarreira.codename.service.EntityNotFoundException;
 import com.stevebarreira.codename.service.GameBoardService;
@@ -19,6 +21,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 
+import javax.xml.bind.ValidationException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -35,6 +38,9 @@ public class GameServiceImpl implements GameService {
 
     @Autowired
     GamesTransformer gamesTransformer;
+
+    @Autowired
+    Validator<GameClue> clueValidator;
 
     private GameRound createNewGameRound(int roundNumber) {
         GameRound gameRound = new GameRound();
@@ -94,8 +100,11 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public Games addClueToGameRound(String id, Integer roundNumber, GameClue gameClue) {
-        if(gameClue == null){
+        if(gameClue == null || gameClue.getClue() == null){
             throw new IllegalArgumentException("Game Clue Is Required");
+        }
+        if(!clueValidator.isValid(gameClue)){
+            throw new IllegalArgumentException("Game Clue Invalid");
         }
 
         Optional<Games> game = Optional.ofNullable(gameRepository.findOne(id));
