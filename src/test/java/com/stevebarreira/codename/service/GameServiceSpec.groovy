@@ -190,6 +190,7 @@ class GameServiceSpec extends Specification implements GameSpec {
         then:
         1 * mockGameRepository.findOne(_ as String) >> defaultGame
         1 * mockGameRepository.save(_ as Games) >> defaultGame
+        1 * mockClueValidator.isValid(_ as GameClue) >> true
         0 * _
 
         and:
