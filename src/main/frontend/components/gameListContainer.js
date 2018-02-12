@@ -18,14 +18,12 @@ export class GameListContainer extends React.Component{
 
     deleteGame(id) {
         gameService.deleteGame(id).done(response => {
-            console.log("DELTED GAME: " + id)
             this.updateGames()
         })
     }
 
     createGame() {
         gameService.createGame().done(response => {
-            console.log("CREATED GAME: " + response.entity.id)
             this.updateGames()
         })
     }

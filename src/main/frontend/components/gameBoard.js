@@ -1,6 +1,7 @@
 import React from 'react'
 import { GameBoardRow } from './gameBoardRow'
 import { gameBoardStyles } from '../styles/gameBoardStyles'
+import { Table } from 'react-bootstrap'
 
 export const GameBoard = (props) => {
     let rows = props.gameBoard.gameRows.map((row, i) => {
@@ -9,9 +10,9 @@ export const GameBoard = (props) => {
     return (
         <div>
         <h3 style={gameBoardStyles.h1Style} className='testclass'> THE GAME BOARD IS HERE </h3>
-           <table>
+           <Table>
                <tbody>{rows}</tbody>
-           </table>
+           </Table>
         </div>
 
     )

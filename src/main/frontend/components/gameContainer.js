@@ -12,29 +12,21 @@ export class GameContainer extends React.Component {
     }
 
     componentDidMount() {
-        console.log(this.props)
         let gameId = this.props.gameId
         if(gameId){
-
             gameService.getGameById(gameId).done((resp) => {
-                console.log("RESPONSE FROM SERVICE")
-                console.log(resp)
                 let game = resp.entity
-
 
                 let rounds = game.rounds && game.rounds.map((gameRound, i) => {
                     return gameRound
                 })
-                console.log(rounds)
 
                 this.setState({
                     game: game,
                     rounds: rounds
                 })
             })
-        } else {
-            console.log("GAME ID NULL")
-        }
+        } 
     }
 
     render() {
