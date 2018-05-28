@@ -16,17 +16,14 @@ export class GameContainer extends React.Component {
         if(gameId){
             gameService.getGameById(gameId).done((resp) => {
                 let game = resp.entity
-
-                let rounds = game.rounds && game.rounds.map((gameRound, i) => {
-                    return gameRound
-                })
+                let rounds = resp.entity.rounds || []
 
                 this.setState({
                     game: game,
                     rounds: rounds
                 })
             })
-        } 
+        }
     }
 
     render() {

@@ -1,6 +1,7 @@
 import React from 'react'
 import {gameService} from '../api/gameService.js'
 import { GameBoard } from './gameBoard'
+import { Grid } from 'react-bootstrap'
 
 export const Game = (props) => {
     const rounds = props.rounds.map((round, i) => {
@@ -13,9 +14,9 @@ export const Game = (props) => {
     })
 
     return (
-        <div>
+        <Grid>
             <h1> Game ID: {props.game.id} </h1>
             {rounds}
-        </div>
+        </Grid>
     )
 }

@@ -4,7 +4,7 @@ import { gameBoardStyles } from '../styles/gameBoardStyles'
 import { Table } from 'react-bootstrap'
 
 export const GameBoard = (props) => {
-    let rows = props.gameBoard.gameRows.map((row, i) => {
+    const rows = props.gameBoard.gameRows.map((row, i) => {
              return <GameBoardRow key={'GR_' + i + '_' + props.gameBoard.id} gameRow={row} />
     })
     return (

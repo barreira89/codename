@@ -1,6 +1,5 @@
 import React from 'react'
 
-
 let dvStyle = {
     fontSize: '1.0em',
     fontStyle: 'bold'
@@ -9,11 +8,17 @@ let dvStyle = {
 export class GameTile extends React.Component {
     constructor(props){
         super(props)
+        this.handleClick = this.handleClick.bind(this)
+    }
+
+    handleClick(e) {
+       console.log(e)
+       this.props.onClick()
     }
 
     render(){
         return(
-            <td style={dvStyle}>{this.props.gameTile.word}</td>
+            <td style={this.props.tileStyle} onClick={this.handleClick}>{this.props.gameTile.word}</td>
         )
     }
 }
