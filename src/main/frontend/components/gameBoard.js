@@ -2,6 +2,7 @@ import React from 'react'
 import { GameBoardRow } from './gameBoardRow'
 import { gameBoardStyles } from '../styles/gameBoardStyles'
 import { Table } from 'react-bootstrap'
+import { GameSocket } from './gameSocket'
 
 export const GameBoard = (props) => {
     const rows = props.gameBoard.gameRows.map((row, i) => {
@@ -13,6 +14,7 @@ export const GameBoard = (props) => {
            <Table>
                <tbody>{rows}</tbody>
            </Table>
+           <GameSocket />
         </div>
 
     )
