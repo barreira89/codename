@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Service
@@ -63,18 +64,18 @@ public class GameBoardServiceImpl implements GameBoardService {
     }
 
     private List<GameRow> createGameRows() {
-        List<GameRow> gameRows = new ArrayList<>();
-        IntStream.rangeClosed(1, 5)
-                .forEach(i -> gameRows.add(createGameRow()));
-        return gameRows;
+        return IntStream.rangeClosed(1, 5)
+                .mapToObj(i -> createGameRow())
+                .collect(Collectors.toList());
     }
 
     private GameRow createGameRow() {
-        GameRow gameRow = new GameRow();
-        List<GameTile> tiles = new ArrayList<>();
-        IntStream.rangeClosed(1, 5)
-                .forEach(i -> tiles.add(new GameTile()));
-        gameRow.setRowTiles(tiles);
-        return gameRow;
+        return new GameRow(createGameTiles(5));
+    }
+
+    private List<GameTile> createGameTiles(int listSize){
+        return IntStream.rangeClosed(1, listSize)
+                .mapToObj(i -> new GameTile())
+                .collect(Collectors.toList());
     }
 }

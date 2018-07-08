@@ -9,26 +9,25 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class GamesTransformer implements Transformer<Games, GamesDto>{
     @Override
     public GamesDto transform(Games input) {
-        GamesDto gamesDto = new GamesDto();
-        gamesDto.setId(input.id);
-        gamesDto.setGameRounds(input.getRounds());
-        gamesDto.setGameBoards(getGameRoundsFromRounds(input.getRounds()));
-        return gamesDto;
+        return new GamesDto(
+                input.getId(),
+                null,
+                input.getRounds(),
+                getGameRoundsFromRounds(input.getRounds())
+        );
     }
 
     private List<GameBoards> getGameRoundsFromRounds(List<GameRound> gameRoundsList) {
-        List<GameBoards> gameBoards = new ArrayList<>();
-        if(gameRoundsList != null){
-            gameBoards = gameRoundsList.stream()
-                    .map(GameRound::getGameBoard)
-                    .filter(Objects::nonNull)
-                    .collect(Collectors.toList());
-        }
-        return gameBoards;
+        return Optional.ofNullable(gameRoundsList)
+                .map(Collection::stream)
+                .orElse(Stream.empty())
+                .map(GameRound::getGameBoard)
+                .collect(Collectors.toList());
     }
 }

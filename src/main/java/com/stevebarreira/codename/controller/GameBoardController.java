@@ -20,7 +20,7 @@ public class GameBoardController {
     @Autowired
     private GameBoardService gameBoardService;
 
-    @RequestMapping(method = RequestMethod.GET, value = "/gameboards", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/gameboards", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<GameBoards> getAllGameBoards() {
         return gameBoardService.getAllGameBoards();
     }
