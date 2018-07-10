@@ -2,10 +2,8 @@ package com.stevebarreira.codename.model;
 
 import org.springframework.data.annotation.Id;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.IntStream;
 
 public class GameBoards implements Cloneable {
 
@@ -16,9 +14,18 @@ public class GameBoards implements Cloneable {
     private WordList wordList;
     private TeamList teamList;
 
+    public GameBoards(TeamList teamList){
+        this.teamList = teamList;
+    }
+
+    public GameBoards(TeamList teamList, WordList wordList, List<GameRow> gameRows){
+        this.teamList = teamList;
+        this.wordList = wordList;
+        this.gameRows = gameRows;
+    }
+
     public GameBoards() {
         this.teamList = new TeamList();
-        this.gameRows = createGameRows();
     }
 
     public String getId() {
@@ -45,8 +52,10 @@ public class GameBoards implements Cloneable {
         this.gameRows = gameRows;
     }
 
-    public void assignTeams() {
+    //TODO: Move to Service
+    public GameBoards assignTeams() {
         this.setGameRows(AssignTeamService.assignTeams(teamList, wordList, this.gameRows));
+        return this;
     }
 
     public WordList getWordList() {
@@ -57,19 +66,4 @@ public class GameBoards implements Cloneable {
         this.wordList = wordList;
     }
 
-    private List<GameRow> createGameRows() {
-        List<GameRow> gameRows = new ArrayList<>();
-        IntStream.rangeClosed(1, 5)
-                .forEach(i -> gameRows.add(createGameRow()));
-        return gameRows;
-    }
-
-    private GameRow createGameRow() {
-        GameRow gameRow = new GameRow();
-        List<GameTile> tiles = new ArrayList<>();
-        IntStream.rangeClosed(1, 5)
-                .forEach(i -> tiles.add(new GameTile()));
-        gameRow.setRowTiles(tiles);
-        return gameRow;
-    }
 }

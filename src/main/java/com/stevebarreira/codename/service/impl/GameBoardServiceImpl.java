@@ -1,9 +1,6 @@
 package com.stevebarreira.codename.service.impl;
 
-import com.stevebarreira.codename.model.GameBoards;
-import com.stevebarreira.codename.model.GameRow;
-import com.stevebarreira.codename.model.GameTile;
-import com.stevebarreira.codename.model.WordList;
+import com.stevebarreira.codename.model.*;
 import com.stevebarreira.codename.repository.GameBoardRepository;
 import com.stevebarreira.codename.service.GameBoardService;
 import com.stevebarreira.codename.service.WordListService;
@@ -14,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -30,22 +28,21 @@ public class GameBoardServiceImpl implements GameBoardService {
 
     @Override
     public GameBoards createRandomGameBoard() throws RuntimeException {
-        GameBoards gameBoard;
         WordList wordList = wordListService.getRandomWordList();
-        if(wordList != null){
-            gameBoard = setupGameBoard(wordList);
-        } else {
-            throw new RuntimeException("No WordList Available, Default Failure");
-        }
-        return gameBoardRepository.save(gameBoard);
+        TeamList teamList = new TeamList();
+
+        Optional.ofNullable(wordList)
+                .orElseThrow(() -> new RuntimeException("No WordList Available, Default Failure"));
+
+        return gameBoardRepository.save(setupGameBoard(wordList, teamList));
     }
 
-    private GameBoards setupGameBoard(WordList wordList){
-        GameBoards gameBoard = new GameBoards();
-        gameBoard.setWordList(wordList);
-        gameBoard.setGameRows(createGameRows());
-        gameBoard.assignTeams();
-        return gameBoard;
+    private GameBoards setupGameBoard(WordList wordList, TeamList teamList) {
+        return new GameBoards(
+                teamList,
+                wordList,
+                AssignTeamService.getAssignedTeams(teamList, wordList)
+        );
     }
 
     @Override
@@ -63,19 +60,4 @@ public class GameBoardServiceImpl implements GameBoardService {
         return gameBoardRepository.save(gameBoard);
     }
 
-    private List<GameRow> createGameRows() {
-        return IntStream.rangeClosed(1, 5)
-                .mapToObj(i -> createGameRow())
-                .collect(Collectors.toList());
-    }
-
-    private GameRow createGameRow() {
-        return new GameRow(createGameTiles(5));
-    }
-
-    private List<GameTile> createGameTiles(int listSize){
-        return IntStream.rangeClosed(1, listSize)
-                .mapToObj(i -> new GameTile())
-                .collect(Collectors.toList());
-    }
 }
