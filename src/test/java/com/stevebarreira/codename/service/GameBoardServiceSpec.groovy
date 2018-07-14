@@ -1,8 +1,6 @@
 package com.stevebarreira.codename.service
 
-import com.stevebarreira.codename.model.GameBoards
-import com.stevebarreira.codename.model.Team
-import com.stevebarreira.codename.model.WordList
+import com.stevebarreira.codename.model.*
 import com.stevebarreira.codename.repository.GameBoardRepository
 import com.stevebarreira.codename.service.impl.GameBoardServiceImpl
 import spock.lang.Specification
@@ -11,15 +9,20 @@ class GameBoardServiceSpec extends Specification implements GameSpec {
 
     WordListService mockWordListService = Mock()
     GameBoardRepository mockGameBoardRepository = Mock()
+    AssignTeamService mockAssignTeamService = Mock()
     GameBoardService gameBoardService = new GameBoardServiceImpl(
             wordListService: mockWordListService,
-            gameBoardRepository: mockGameBoardRepository
+            gameBoardRepository: mockGameBoardRepository,
+            assignTeamService: mockAssignTeamService
     )
 
-
+    //TODO: Move to Assign Service
+    //@Ignore
     def 'createRandomGameBoard - valid'() {
         setup:
         WordList randomWordList = new WordList(wordList: wordListOf25())
+        List<GameTile> gameTiles = (0..4).collect { new GameTile()}
+        List<GameRow> gameRows = (0..4).collect {new GameRow(rowTiles: gameTiles)}
 
         when:
         GameBoards gameBoardResult = gameBoardService.createRandomGameBoard()
@@ -27,6 +30,7 @@ class GameBoardServiceSpec extends Specification implements GameSpec {
         then:
         1 * mockWordListService.getRandomWordList() >> randomWordList
         1 * mockGameBoardRepository.save(_ as GameBoards) >> {GameBoards gb -> return gb }
+        1 * mockAssignTeamService.getAssignedTeams(_ as TeamList, _ as WordList) >> gameRows
         0 * _
 
         and:
@@ -35,7 +39,7 @@ class GameBoardServiceSpec extends Specification implements GameSpec {
         gameBoardResult.wordList.wordList.size() == 25
         gameBoardResult.gameRows.size() == 5
         gameBoardResult.gameRows.rowTiles.flatten().size() == 25
-        gameBoardResult.gameRows.rowTiles.team.flatten().containsAll([Team.RED, Team.ASSASSIN, Team.BLUE, Team.NEUTRAL])
+        //gameBoardResult.gameRows.rowTiles.team.flatten().containsAll([Team.RED, Team.ASSASSIN, Team.BLUE, Team.NEUTRAL])
 
     }
 
@@ -45,7 +49,6 @@ class GameBoardServiceSpec extends Specification implements GameSpec {
 
         then:
         1 * mockWordListService.getRandomWordList() >> null
-        //1 * mockGameBoardRepository.save(_ as GameBoards) >> {GameBoards gb -> return gb}
         0 * _
 
         and:

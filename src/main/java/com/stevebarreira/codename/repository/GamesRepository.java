@@ -6,6 +6,6 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface GamesRepository extends MongoRepository<Games, String>, PagingAndSortingRepository<Games, String>{
+public interface GamesRepository extends MongoRepository<Games, String>, PagingAndSortingRepository<Games, String> {
 
 }

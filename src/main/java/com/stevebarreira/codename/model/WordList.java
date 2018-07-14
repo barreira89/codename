@@ -20,7 +20,7 @@ public class WordList {
     }
 
     public WordList() {
-        this.wordList = createWordMap();
+        this.wordList = createDefaultWordList();
         this.selectWordList = new ArrayList<>(wordList);
     }
 
@@ -45,7 +45,7 @@ public class WordList {
     }
 
     @JsonIgnore
-    public List<String> createWordMap() {
+    public List<String> createDefaultWordList() {
         List<String> wordList = new ArrayList<>();
         wordList.add("PLASTIC");
         wordList.add("DWARF");

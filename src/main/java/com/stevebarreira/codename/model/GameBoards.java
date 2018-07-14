@@ -52,12 +52,6 @@ public class GameBoards implements Cloneable {
         this.gameRows = gameRows;
     }
 
-    //TODO: Move to Service
-    public GameBoards assignTeams() {
-        this.setGameRows(AssignTeamService.assignTeams(teamList, wordList, this.gameRows));
-        return this;
-    }
-
     public WordList getWordList() {
         return wordList;
     }

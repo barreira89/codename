@@ -49,7 +49,7 @@ public class WordListServiceImpl implements WordListService {
 
 	private Codenames getDefaultCodeNames() {
 		Codenames codeNameList = new Codenames();
-		codeNameList.setWords(new WordList().createWordMap());
+		codeNameList.setWords(new WordList().createDefaultWordList());
 		return codeNameList;
 	}
 

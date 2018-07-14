@@ -88,5 +88,36 @@ trait GameSpec {
     @Shared
     Page<Games> listOf4PageGames = new PageImpl<Games>(listOf4Games, new PageRequest(0, 1), 4)
 
+    @Shared
+    TeamList defaultTeamList = new TeamList(
+            teamList: [
+                    Team.RED,
+                    Team.RED,
+                    Team.RED,
+                    Team.RED,
+                    Team.RED,
+                    Team.RED,
+                    Team.RED,
+                    Team.RED,
+                    Team.RED,
+                    Team.BLUE,
+                    Team.BLUE,
+                    Team.BLUE,
+                    Team.BLUE,
+                    Team.BLUE,
+                    Team.BLUE,
+                    Team.BLUE,
+                    Team.ASSASSIN,
+                    Team.NEUTRAL,
+                    Team.NEUTRAL,
+                    Team.NEUTRAL,
+                    Team.NEUTRAL,
+                    Team.NEUTRAL,
+                    Team.NEUTRAL,
+                    Team.NEUTRAL,
+                    Team.NEUTRAL,
+                    Team.NEUTRAL,
+            ]
+    )
 
 }
