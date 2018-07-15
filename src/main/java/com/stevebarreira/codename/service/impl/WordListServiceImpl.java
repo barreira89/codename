@@ -21,7 +21,7 @@ public class WordListServiceImpl implements WordListService {
     private static final Logger LOGGER = LoggerFactory.getLogger(WordListServiceImpl.class);
 
     private static final int DEFAULTSIZE = 25;
-    
+
     @Autowired
     private Random generator;
 
@@ -36,7 +36,6 @@ public class WordListServiceImpl implements WordListService {
 
     @Override
     public Word getRandomWord(WordList wordList) {
-        System.out.println("CALLED");
         Collections.shuffle(wordList.getWords());
         return wordList.getWords()
                 .stream()

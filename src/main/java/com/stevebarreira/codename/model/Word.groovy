@@ -5,11 +5,13 @@ class Word {
     boolean selected
 
     Word(String value){
-        this.value = value
+        this.value = value.toUpperCase()
     }
 
     Word selectWord(){
         this.selected = true
-        return this;
+        return this
     }
+
+
 }

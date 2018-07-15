@@ -1,10 +1,6 @@
 package com.stevebarreira.codename.service.impl
 
-import com.stevebarreira.codename.model.GameRow
-import com.stevebarreira.codename.model.GameTile
-import com.stevebarreira.codename.model.TeamList
-import com.stevebarreira.codename.model.Word
-import com.stevebarreira.codename.model.WordList
+import com.stevebarreira.codename.model.*
 import com.stevebarreira.codename.service.AssignTeamService
 import com.stevebarreira.codename.service.WordListService
 import groovy.transform.Synchronized
@@ -29,7 +25,7 @@ class AssignTeamServiceImpl implements AssignTeamService {
                 gameTile.colIndex = colIndex
                 gameTile.rowIndex = gameRowIndex
                 gameTile.team = teamList.getRandomTeam()
-                gameTile.word = selectionList[gameRowIndex * gameRow.rowTiles.size() + colIndex]
+                gameTile.word = selectionList.pop()
             }
         }
     }
