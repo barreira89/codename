@@ -27,16 +27,22 @@ public class WordList {
                 .map(Word::getValue)
                 .collect(Collectors.toList());
     }
+//
+//    public WordList(List<String> words) {
+//        this.words = transformStringToWords(words);
+//    }
 
-    public WordList(List<String> words) {
-        this.words = transformStringToWords(words);
+    public WordList(List<Word> words) {
+        this.words = words;
     }
 
     public WordList() {
         this.words = createDefaultWordList();
     }
 
-    public List<Word> getWords(){return this.words;}
+    public List<Word> getWords() {
+        return this.words;
+    }
 
     public List<String> getStringWords() {
         return words.stream().map(Word::getValue).collect(Collectors.toList());

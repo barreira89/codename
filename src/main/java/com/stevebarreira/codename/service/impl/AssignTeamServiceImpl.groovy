@@ -3,9 +3,11 @@ package com.stevebarreira.codename.service.impl
 import com.stevebarreira.codename.model.GameRow
 import com.stevebarreira.codename.model.GameTile
 import com.stevebarreira.codename.model.TeamList
+import com.stevebarreira.codename.model.Word
 import com.stevebarreira.codename.model.WordList
 import com.stevebarreira.codename.service.AssignTeamService
 import com.stevebarreira.codename.service.WordListService
+import groovy.transform.Synchronized
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
@@ -19,13 +21,15 @@ class AssignTeamServiceImpl implements AssignTeamService {
         assignTeams(teamList, wordList, createGameRows(5))
     }
 
+    @Synchronized
     List<GameRow> assignTeams(TeamList teamList, WordList wordList, List<GameRow> gameRows) {
+        List<Word> selectionList = wordList.getWords()
         gameRows.eachWithIndex { GameRow gameRow, int gameRowIndex ->
             gameRow.rowTiles.eachWithIndex { GameTile gameTile, int colIndex ->
                 gameTile.colIndex = colIndex
                 gameTile.rowIndex = gameRowIndex
                 gameTile.team = teamList.getRandomTeam()
-                gameTile.word = wordListService.getRandomWord(wordList)
+                gameTile.word = selectionList[gameRowIndex * gameRow.rowTiles.size() + colIndex]
             }
         }
     }

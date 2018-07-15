@@ -1,5 +1,6 @@
 package com.stevebarreira.codename.service.impl;
 
+import com.stevebarreira.codename.exception.EntityNotFoundException;
 import com.stevebarreira.codename.model.*;
 import com.stevebarreira.codename.repository.GameBoardRepository;
 import com.stevebarreira.codename.service.AssignTeamService;
@@ -41,7 +42,7 @@ public class GameBoardServiceImpl implements GameBoardService {
 
     @Override
     public GameBoards getGameBoardById(String id) {
-        return gameBoardRepository.findOne(id);
+        return gameBoardRepository.findById(id).orElseThrow(()-> new EntityNotFoundException("No GameBoards"));
     }
 
     @Override

@@ -54,21 +54,24 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public Games getGameById(String id) {
-        Optional<Games> gameResult = Optional.ofNullable(gameRepository.findOne(id));
-        return gameResult.orElseThrow(() -> new EntityNotFoundException("NOT FOUND"));
+        return gameRepository
+                .findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Game Not Found"));
     }
 
     @Override
     public GamesDto getGameDtoById(String id) {
-        Optional<Games> gameResult = Optional.ofNullable(gameRepository.findOne(id));
-        return gamesTransformer.transform(gameResult.orElseThrow( ()-> new EntityNotFoundException("NOT FOUND")));
+        return gameRepository
+                .findById(id)
+                .map(gamesTransformer::transform)
+                .orElseThrow(() -> new EntityNotFoundException("Game Not Found"));
     }
 
     @Override
     public Games newRoundForGame(String id) {
-        Games currentGame = gameRepository.findOne(id);
+        Games currentGame = gameRepository.findById(id).orElseThrow(()-> new EntityNotFoundException("Game Not Found"));
         int highestRound = getHighestRound(currentGame);
-        highestRound++;
+        highestRound ++;
         currentGame.addGameRound(createNewGameRound(highestRound));
         gameRepository.save(currentGame);
         return currentGame;
@@ -100,7 +103,7 @@ public class GameServiceImpl implements GameService {
             throw new IllegalArgumentException("Game Clue Invalid");
         }
 
-        Optional<Games> game = Optional.ofNullable(gameRepository.findOne(id));
+        Optional<Games> game = gameRepository.findById(id);
         game
                 .map(g -> g.getRoundByRoundNumber(roundNumber))
                 .ifPresent(gr -> gr.addClue(gameClue));
@@ -112,7 +115,7 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public List<GameClue> getCluesByGameAndRound(String id, Integer roundNumber) {
-        return Optional.ofNullable(gameRepository.findOne(id))
+        return gameRepository.findById(id)
                 .map(Games::getRounds)
                 .flatMap(gameRounds -> gameRounds.stream()
                         .filter(gr -> gr.getRoundNumber() == roundNumber)
@@ -124,7 +127,7 @@ public class GameServiceImpl implements GameService {
 
     //TODO add Unit Tests
     public void deleteGameById(String id){
-        gameRepository.delete(id);
+        gameRepository.deleteById(id);
     }
 
 }

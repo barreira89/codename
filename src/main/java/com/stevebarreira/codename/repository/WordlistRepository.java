@@ -5,6 +5,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface WordlistRepository extends MongoRepository<Codenames, String> {
-	
+public interface WordlistRepository extends WordListRepositoryCustom, MongoRepository<Codenames, String> {
+
 }

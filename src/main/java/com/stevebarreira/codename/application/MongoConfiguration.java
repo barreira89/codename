@@ -1,6 +1,5 @@
 package com.stevebarreira.codename.application;
 
-import com.mongodb.Mongo;
 import com.mongodb.MongoClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -21,9 +20,13 @@ public class MongoConfiguration extends AbstractMongoConfiguration {
 		return mongoDatabase;
 	}
 
-	@Override
-	public Mongo mongo() throws Exception {
-		return new MongoClient(mongoHost + ":" + mongoPort);
-	}
+//	@Override
+//	public Mongo mongo() throws Exception {
+//		return new MongoClient(mongoHost + ":" + mongoPort);
+//	}
 
+	@Override
+	public MongoClient mongoClient() {
+		return new MongoClient(mongoHost, Integer.valueOf(mongoPort));
+	}
 }
