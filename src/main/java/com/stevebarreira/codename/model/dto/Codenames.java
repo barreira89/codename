@@ -11,7 +11,7 @@ public class Codenames {
 	String id;
 	List<String> words;
 	
-	public Codenames(){};
+	public Codenames(){}
 	
 	public String getId() {
 		return id;

@@ -6,24 +6,17 @@ import com.stevebarreira.codename.model.Games;
 import com.stevebarreira.codename.model.dto.GamesDto;
 import com.stevebarreira.codename.model.transformer.impl.GamesTransformer;
 import com.stevebarreira.codename.model.validator.Validator;
-import com.stevebarreira.codename.model.validator.impl.ClueValidator;
 import com.stevebarreira.codename.repository.GamesRepository;
-import com.stevebarreira.codename.service.EntityNotFoundException;
+import com.stevebarreira.codename.exception.EntityNotFoundException;
 import com.stevebarreira.codename.service.GameBoardService;
 import com.stevebarreira.codename.service.GameService;
-import org.apache.log4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.config.ResourceNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
 
-import javax.xml.bind.ValidationException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class GameServiceImpl implements GameService {

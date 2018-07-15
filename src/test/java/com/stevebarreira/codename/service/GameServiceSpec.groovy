@@ -1,15 +1,14 @@
 package com.stevebarreira.codename.service
 
+import com.stevebarreira.codename.exception.EntityNotFoundException
 import com.stevebarreira.codename.model.GameBoards
 import com.stevebarreira.codename.model.GameClue
 import com.stevebarreira.codename.model.GameRound
 import com.stevebarreira.codename.model.Games
 import com.stevebarreira.codename.model.transformer.impl.GamesTransformer
 import com.stevebarreira.codename.model.validator.Validator
-import com.stevebarreira.codename.model.validator.impl.ClueValidator
 import com.stevebarreira.codename.repository.GamesRepository
 import com.stevebarreira.codename.service.impl.GameServiceImpl
-import org.springframework.boot.context.config.ResourceNotFoundException
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable

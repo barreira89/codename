@@ -34,8 +34,8 @@ class WordListServiceSpec extends Specification {
 
         and:
         resultWordList
-        resultWordList.wordList
-        resultWordList.wordList.size() == listSizeResult
+        resultWordList.stringWords
+        resultWordList.stringWords.size() == listSizeResult
 
         where:
         listSizeInput || listSizeResult
@@ -52,8 +52,8 @@ class WordListServiceSpec extends Specification {
 
         and:
         resultWordList
-        resultWordList.wordList
-        resultWordList.wordList.size() == WordList.DEFAULT_LIST_SIZE
+        resultWordList.stringWords
+        resultWordList.stringWords.size() == WordList.DEFAULT_LIST_SIZE
 
     }
 

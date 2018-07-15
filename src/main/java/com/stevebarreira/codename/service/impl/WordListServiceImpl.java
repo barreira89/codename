@@ -1,5 +1,7 @@
 package com.stevebarreira.codename.service.impl;
 
+import com.stevebarreira.codename.exception.GameBoardCreationException;
+import com.stevebarreira.codename.model.Word;
 import com.stevebarreira.codename.model.WordList;
 import com.stevebarreira.codename.model.dto.Codenames;
 import com.stevebarreira.codename.repository.WordlistRepository;
@@ -11,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -48,10 +51,20 @@ public class WordListServiceImpl implements WordListService {
 	}
 
 	private Codenames getDefaultCodeNames() {
-		Codenames codeNameList = new Codenames();
-		codeNameList.setWords(new WordList().createDefaultWordList());
-		return codeNameList;
+		Codenames codeNames = new Codenames();
+		codeNames.setWords(new WordList().getStringWords());
+		return codeNames;
 	}
+
+	public Word getRandomWord(WordList wordList){
+        Collections.shuffle(wordList.getWords());
+        return wordList.getWords()
+                .stream()
+                .filter(word -> !word.isSelected())
+                .findFirst()
+                .map(Word::selectWord)
+                .orElseThrow(() -> new GameBoardCreationException("OUT OF WORDS"));
+    }
 
 	private int randomValueFromWordList(List wordList){
 		return generator.nextInt(wordList.size());

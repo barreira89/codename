@@ -71,7 +71,7 @@ trait GameSpec {
 
     @Shared
     def defaultWordList = new WordList(
-            wordList: ["TEST", "TEST1"]
+            words: ["TEST", "TEST1"]
     )
 
     @Shared

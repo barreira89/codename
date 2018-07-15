@@ -137,6 +137,6 @@ class GameBoardControllerSpec extends Specification implements ControllerTrait {
 
         and:
         wordListResponse
-        wordListResponse.wordList
+        wordListResponse.stringWords
     }
 }

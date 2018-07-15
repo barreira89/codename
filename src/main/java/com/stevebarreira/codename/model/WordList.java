@@ -2,76 +2,78 @@ package com.stevebarreira.codename.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
-import java.util.Random;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class WordList {
 
-    private final static String EMPTY_WORDLIST_VALUE = "EMPTYLIST";
-    private static int DEFAULT_LIST_SIZE = 25;
-    private Random random = new Random();
-    private List<String> wordList;
-    private List<String> selectWordList;
+    private List<Word> words;
 
-    public WordList(List<String> wordList) {
-        this.wordList = wordList;
-        this.selectWordList = new ArrayList<>(wordList);
+    private List<Word> transformStringToWords(List<String> wordString) {
+        return Optional.ofNullable(wordString)
+                .orElse(Collections.emptyList())
+                .stream()
+                .map(Word::new)
+                .collect(Collectors.toList());
+    }
+
+    private List<String> transformWordsToString(List<Word> words) {
+        return Optional.ofNullable(words)
+                .orElse(Collections.emptyList())
+                .stream()
+                .map(Word::getValue)
+                .collect(Collectors.toList());
+    }
+
+    public WordList(List<String> words) {
+        this.words = transformStringToWords(words);
     }
 
     public WordList() {
-        this.wordList = createDefaultWordList();
-        this.selectWordList = new ArrayList<>(wordList);
+        this.words = createDefaultWordList();
     }
 
-    public List<String> getWordList() {
-        return wordList;
+    public List<Word> getWords(){return this.words;}
+
+    public List<String> getStringWords() {
+        return words.stream().map(Word::getValue).collect(Collectors.toList());
     }
 
-    public void setWordList(List<String> wordList) {
-        this.wordList = wordList;
-    }
-
-    @JsonIgnore
-    public String getRandomWord() {
-        int wordListSize = selectWordList.size();
-        if (wordListSize == 0) {
-            return EMPTY_WORDLIST_VALUE;
-        }
-        int randomValue = wordListSize == 1 ? 0 : random.nextInt(wordListSize);
-        String output = selectWordList.get(randomValue);
-        selectWordList.remove(randomValue);
-        return output;
+    public void setWords(List<String> words) {
+        this.words = transformStringToWords(words);
     }
 
     @JsonIgnore
-    public List<String> createDefaultWordList() {
-        List<String> wordList = new ArrayList<>();
-        wordList.add("PLASTIC");
-        wordList.add("DWARF");
-        wordList.add("SMUGGLER");
-        wordList.add("ENGLAND");
-        wordList.add("CLUB");
-        wordList.add("DRILL");
-        wordList.add("BAND");
-        wordList.add("SINK");
-        wordList.add("FIRE");
-        wordList.add("BERMUDA");
-        wordList.add("JAM");
-        wordList.add("ARM");
-        wordList.add("ORGAN");
-        wordList.add("PIRATE");
-        wordList.add("LAB");
-        wordList.add("HORSE");
-        wordList.add("TRIP");
-        wordList.add("SQUARE");
-        wordList.add("EYE");
-        wordList.add("BOARD");
-        wordList.add("TABLE");
-        wordList.add("DOCTOR");
-        wordList.add("BEACH");
-        wordList.add("ROCK");
-        wordList.add("SPIDER");
-        return wordList;
+    private List<Word> createDefaultWordList() {
+        return Arrays.asList(
+                new Word("PLASTIC"),
+                new Word("DWARF"),
+                new Word("SMUGGLER"),
+                new Word("ENGLAND"),
+                new Word("CLUB"),
+                new Word("DRILL"),
+                new Word("BAND"),
+                new Word("SINK"),
+                new Word("FIRE"),
+                new Word("BERMUDA"),
+                new Word("JAM"),
+                new Word("ARM"),
+                new Word("ORGAN"),
+                new Word("PIRATE"),
+                new Word("LAB"),
+                new Word("HORSE"),
+                new Word("TRIP"),
+                new Word("SQUARE"),
+                new Word("EYE"),
+                new Word("BOARD"),
+                new Word("TABLE"),
+                new Word("DOCTOR"),
+                new Word("BEACH"),
+                new Word("ROCK"),
+                new Word("SPIDER")
+        );
     }
 }

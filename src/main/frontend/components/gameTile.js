@@ -18,7 +18,7 @@ export class GameTile extends React.Component {
 
     render(){
         return(
-            <td style={this.props.tileStyle} onClick={this.handleClick}>{this.props.gameTile.word}</td>
+            <td style={this.props.tileStyle} onClick={this.handleClick}>{this.props.gameTile.word.value}</td>
         )
     }
 }

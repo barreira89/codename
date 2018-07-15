@@ -20,7 +20,7 @@ class GameBoardServiceSpec extends Specification implements GameSpec {
     //@Ignore
     def 'createRandomGameBoard - valid'() {
         setup:
-        WordList randomWordList = new WordList(wordList: wordListOf25())
+        WordList randomWordList = new WordList(words: wordListOf25())
         List<GameTile> gameTiles = (0..4).collect { new GameTile()}
         List<GameRow> gameRows = (0..4).collect {new GameRow(rowTiles: gameTiles)}
 
@@ -36,7 +36,7 @@ class GameBoardServiceSpec extends Specification implements GameSpec {
         and:
         gameBoardResult
         gameBoardResult.wordList
-        gameBoardResult.wordList.wordList.size() == 25
+        gameBoardResult.wordList.stringWords.size() == 25
         gameBoardResult.gameRows.size() == 5
         gameBoardResult.gameRows.rowTiles.flatten().size() == 25
         //gameBoardResult.gameRows.rowTiles.team.flatten().containsAll([Team.RED, Team.ASSASSIN, Team.BLUE, Team.NEUTRAL])

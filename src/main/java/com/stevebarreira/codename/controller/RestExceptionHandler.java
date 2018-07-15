@@ -1,7 +1,7 @@
 package com.stevebarreira.codename.controller;
 
 import com.stevebarreira.codename.model.dto.ApiError;
-import com.stevebarreira.codename.service.EntityNotFoundException;
+import com.stevebarreira.codename.exception.EntityNotFoundException;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
