@@ -1,5 +1,6 @@
 package com.stevebarreira.codename.service.impl;
 
+import com.stevebarreira.codename.exception.EntityNotFoundException;
 import com.stevebarreira.codename.model.GameClue;
 import com.stevebarreira.codename.model.GameRound;
 import com.stevebarreira.codename.model.Games;
@@ -7,7 +8,6 @@ import com.stevebarreira.codename.model.dto.GamesDto;
 import com.stevebarreira.codename.model.transformer.impl.GamesTransformer;
 import com.stevebarreira.codename.model.validator.Validator;
 import com.stevebarreira.codename.repository.GamesRepository;
-import com.stevebarreira.codename.exception.EntityNotFoundException;
 import com.stevebarreira.codename.service.GameBoardService;
 import com.stevebarreira.codename.service.GameService;
 import org.slf4j.LoggerFactory;
@@ -16,7 +16,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class GameServiceImpl implements GameService {
@@ -24,16 +28,16 @@ public class GameServiceImpl implements GameService {
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(GameServiceImpl.class);
 
     @Autowired
-    GamesRepository gameRepository;
+    private GamesRepository gameRepository;
 
     @Autowired
-    GameBoardService gameBoardService;
+    private GameBoardService gameBoardService;
 
     @Autowired
-    GamesTransformer gamesTransformer;
+    private GamesTransformer gamesTransformer;
 
     @Autowired
-    Validator<GameClue> clueValidator;
+    private Validator<GameClue> clueValidator;
 
     private GameRound createNewGameRound(int roundNumber) {
         GameRound gameRound = new GameRound();
@@ -69,9 +73,9 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public Games newRoundForGame(String id) {
-        Games currentGame = gameRepository.findById(id).orElseThrow(()-> new EntityNotFoundException("Game Not Found"));
+        Games currentGame = gameRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Game Not Found"));
         int highestRound = getHighestRound(currentGame);
-        highestRound ++;
+        highestRound++;
         currentGame.addGameRound(createNewGameRound(highestRound));
         gameRepository.save(currentGame);
         return currentGame;
@@ -96,10 +100,10 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public Games addClueToGameRound(String id, Integer roundNumber, GameClue gameClue) {
-        if(gameClue == null || gameClue.getClue() == null){
+        if (gameClue == null || gameClue.getClue() == null) {
             throw new IllegalArgumentException("Game Clue Is Required");
         }
-        if(!clueValidator.isValid(gameClue)){
+        if (!clueValidator.isValid(gameClue)) {
             throw new IllegalArgumentException("Game Clue Invalid");
         }
 
@@ -115,18 +119,24 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public List<GameClue> getCluesByGameAndRound(String id, Integer roundNumber) {
-        return gameRepository.findById(id)
+        return gameRepository
+                .findById(id)
                 .map(Games::getRounds)
-                .flatMap(gameRounds -> gameRounds.stream()
-                        .filter(gr -> gr.getRoundNumber() == roundNumber)
-                        .map(GameRound::getGameClues)
-                        .filter(Objects::nonNull)
-                        .findFirst())
+                .flatMap(gameRounds -> getGameCluesFromRoundByRoundNumber(gameRounds, roundNumber))
                 .orElseGet(Collections::emptyList);
     }
 
+    private Optional<List<GameClue>> getGameCluesFromRoundByRoundNumber(List<GameRound> rounds, Integer roundNumber) {
+        return rounds
+                .stream()
+                .filter(gameRound -> gameRound.getRoundNumber() == roundNumber)
+                .map(GameRound::getGameClues)
+                .filter(Objects::nonNull)
+                .findFirst();
+    }
+
     //TODO add Unit Tests
-    public void deleteGameById(String id){
+    public void deleteGameById(String id) {
         gameRepository.deleteById(id);
     }
 

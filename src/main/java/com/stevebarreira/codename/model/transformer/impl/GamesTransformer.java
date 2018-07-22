@@ -7,7 +7,9 @@ import com.stevebarreira.codename.model.dto.GamesDto;
 import com.stevebarreira.codename.model.transformer.Transformer;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 

@@ -4,7 +4,6 @@ import com.stevebarreira.codename.model.GameStatus
 import com.stevebarreira.codename.model.Games
 import org.apache.http.HttpStatus
 import org.apache.http.client.utils.URIBuilder
-import org.springframework.context.annotation.Profile
 import org.springframework.web.client.HttpClientErrorException
 import org.springframework.web.client.RestClientException
 import org.springframework.web.client.RestTemplate

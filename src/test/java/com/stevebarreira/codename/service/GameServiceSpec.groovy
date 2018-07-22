@@ -39,7 +39,9 @@ class GameServiceSpec extends Specification implements GameSpec {
         List<GameClue> gameClues = gameService.getCluesByGameAndRound(gameId, targetRoundNumber)
 
         then:
-        1 * mockGameRepository.findOne(_) >> game
+        1 * mockGameRepository.findById(_) >> Optional.ofNullable(game)
+
+        and:
         gameClues == expected
 
         where:
@@ -105,7 +107,7 @@ class GameServiceSpec extends Specification implements GameSpec {
         Games resultGame = gameService.newRoundForGame(_ as String)
 
         then:
-        1 * mockGameRepository.findOne(_ as String) >> gameWithOneRound
+        1 * mockGameRepository.findById(_ as String) >> gameWithOneRound
         1 * mockGameRepository.save(_ as Games) >> gameWithOneRound
         1 * mockGameBoardService.createRandomGameBoard() >> defaultGameBoard
         0 * _
@@ -126,7 +128,7 @@ class GameServiceSpec extends Specification implements GameSpec {
         Games resultGame = gameService.addClueToGameRound(gameId, roundNumber, gameClue)
 
         then:
-        1 * mockGameRepository.findOne(_ as String) >> defaultGame
+        1 * mockGameRepository.findById(_ as String) >> defaultGame
         1 * mockGameRepository.save(_ as Games) >> defaultGame
         1 * mockClueValidator.isValid(_ as GameClue) >> true
         0 * _
@@ -165,7 +167,7 @@ class GameServiceSpec extends Specification implements GameSpec {
 
 
         then:
-        1 * mockGameRepository.findOne(_ as String) >> gameFromRepo
+        1 * mockGameRepository.findById(_ as String) >> gameFromRepo
         1 * mockClueValidator.isValid(_ as GameClue) >> true
         0 * _
 
@@ -187,7 +189,7 @@ class GameServiceSpec extends Specification implements GameSpec {
 
 
         then:
-        1 * mockGameRepository.findOne(_ as String) >> defaultGame
+        1 * mockGameRepository.findById(_ as String) >> defaultGame
         1 * mockGameRepository.save(_ as Games) >> defaultGame
         1 * mockClueValidator.isValid(_ as GameClue) >> true
         0 * _
@@ -208,7 +210,7 @@ class GameServiceSpec extends Specification implements GameSpec {
         Games resultGame = gameService.getGameById(gameId)
 
         then:
-        1 * mockGameRepository.findOne(_ as String) >> resultFromRepo
+        1 * mockGameRepository.findById(_ as String) >> resultFromRepo
         0 * _
 
         and:
@@ -225,7 +227,7 @@ class GameServiceSpec extends Specification implements GameSpec {
         Games resultGame = gameService.getGameById(gameId)
 
         then:
-        1 * mockGameRepository.findOne(_ as String) >> resultFromRepo
+        1 * mockGameRepository.findById(_ as String) >> resultFromRepo
         0 * _
 
         and:

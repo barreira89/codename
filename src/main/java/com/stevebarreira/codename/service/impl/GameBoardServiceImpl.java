@@ -1,7 +1,10 @@
 package com.stevebarreira.codename.service.impl;
 
 import com.stevebarreira.codename.exception.EntityNotFoundException;
-import com.stevebarreira.codename.model.*;
+import com.stevebarreira.codename.model.GameBoards;
+import com.stevebarreira.codename.model.GameRow;
+import com.stevebarreira.codename.model.TeamList;
+import com.stevebarreira.codename.model.WordList;
 import com.stevebarreira.codename.repository.GameBoardRepository;
 import com.stevebarreira.codename.service.AssignTeamService;
 import com.stevebarreira.codename.service.GameBoardService;
@@ -42,7 +45,7 @@ public class GameBoardServiceImpl implements GameBoardService {
 
     @Override
     public GameBoards getGameBoardById(String id) {
-        return gameBoardRepository.findById(id).orElseThrow(()-> new EntityNotFoundException("No GameBoards"));
+        return gameBoardRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("No GameBoards"));
     }
 
     @Override
@@ -51,11 +54,8 @@ public class GameBoardServiceImpl implements GameBoardService {
     }
 
     private GameBoards setupGameBoard(WordList wordList, TeamList teamList) {
-        return new GameBoards(
-                teamList,
-                wordList,
-                assignTeamService.getAssignedTeams(teamList, wordList)
-        );
+        List<GameRow> gameRows = assignTeamService.getAssignedTeams(teamList, wordList);
+        return new GameBoards(teamList, wordList, gameRows);
     }
 
 }

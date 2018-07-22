@@ -1,11 +1,8 @@
 package com.stevebarreira.codename.controller
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import com.stevebarreira.codename.model.Games
 import com.stevebarreira.codename.service.GameService
-import com.stevebarreira.codename.service.WordListService
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import spock.lang.Specification
 
 import static org.springframework.http.MediaType.APPLICATION_JSON

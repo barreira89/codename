@@ -3,7 +3,6 @@ package com.stevebarreira.codename.service.impl
 import com.stevebarreira.codename.model.*
 import com.stevebarreira.codename.service.AssignTeamService
 import com.stevebarreira.codename.service.WordListService
-import groovy.transform.Synchronized
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
@@ -17,7 +16,6 @@ class AssignTeamServiceImpl implements AssignTeamService {
         assignTeams(teamList, wordList, createGameRows(5))
     }
 
-    @Synchronized
     List<GameRow> assignTeams(TeamList teamList, WordList wordList, List<GameRow> gameRows) {
         List<Word> selectionList = wordList.getWords()
         gameRows.eachWithIndex { GameRow gameRow, int gameRowIndex ->
