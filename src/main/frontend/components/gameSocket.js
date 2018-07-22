@@ -1,13 +1,14 @@
 import React from 'react';
-import Websocket from 'react-websocket';
+import SockJsClient from 'react-stomp';
 
 export class GameSocket extends React.Component {
 
     constructor(props) {
       super(props);
-      this.state = {
-        count: 90
-      };
+    }
+
+    sendMessage = (msg) => {
+        this.clientRef.sendMessage('/topics/all', msg);
     }
 
     handleData(data) {
@@ -18,12 +19,10 @@ export class GameSocket extends React.Component {
     render() {
       return (
         <div>
-          Count: <strong>{this.state.count}</strong>
-
-          <Websocket url='ws://localhost:8080/topic/greetings'
-              onMessage={this.handleData.bind(this)}
-              debug={true}/>
-        </div>
+            <SockJsClient url='http://localhost:8080/ws' topics={['/topics/all']}
+            onMessage={(msg) => { console.log(msg);}}
+            ref= {(client) => {this.clientRef = client}} />
+          </div>
       );
     }
   }
