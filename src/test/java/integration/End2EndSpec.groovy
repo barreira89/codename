@@ -4,26 +4,30 @@ import com.stevebarreira.codename.model.GameStatus
 import com.stevebarreira.codename.model.Games
 import org.apache.http.HttpStatus
 import org.apache.http.client.utils.URIBuilder
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.web.client.HttpClientErrorException
 import org.springframework.web.client.RestClientException
 import org.springframework.web.client.RestTemplate
-import spock.lang.Ignore
-import spock.lang.Specification
 
-@Ignore
-class End2EndSpec extends Specification {
+@SpringBootTest(classes = IntegrationBase)
+class End2EndSpec extends IntegrationBase {
 
-    static String appHost
-    static int appPort
+    @Autowired
+    RestTemplate restTemplate
 
-    RestTemplate restTemplate = new RestTemplate()
+    def setupSpec() {
 
-    def setupSpec(){
-        appPort = System.getenv('app.port') ? Integer.parseInt(System.getenv('app.port')) : 8080
-        appHost = System.getenv('app.host') ?: 'localhost'
+//        appPort = System.getenv('app.port') ? Integer.parseInt(System.getenv('app.port')) : 8080
+//        appHost = System.getenv('app.host') ?: 'localhost'
     }
 
-    def 'Test Rest Call Against API' (){
+    def setup() {
+        println(appHost)
+        println(appPort)
+    }
+
+    def 'Test Rest Call Against API'() {
         when: 'Creating The Game'
         URI uriPost = buildGameURI()
         def response = restTemplate.postForEntity(uriPost, null, Games.class)
@@ -34,7 +38,7 @@ class End2EndSpec extends Specification {
         response.body.id
 
         when: 'Reading the Game'
-        URI uriGet  = buildGameURI(response.body.id)
+        URI uriGet = buildGameURI(response.body.id)
         def getResponse = restTemplate.getForEntity(uriGet, Games.class)
 
         then:
@@ -64,7 +68,7 @@ class End2EndSpec extends Specification {
         httpExecpt.statusCode.value() == HttpStatus.SC_NOT_FOUND
     }
 
-    private URI buildGameURI(String gameId = ''){
+    private URI buildGameURI(String gameId = '') {
         return new URIBuilder()
                 .setHost(appHost)
                 .setPort(appPort)
